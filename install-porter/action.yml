@@ -2,9 +2,9 @@ name: 'Install Porter'
 description: 'Installs Porter on the agent'
 inputs:
   install_path:
-    description: 'Directory to install Porter'
+    description: 'Directory to install Porter, relative to $HOME env var ( /github/home )'
     required: false
-    default: '${{ runner.temp }}/porter'
+    default: 'porter'
   porter_url:
     description: 'URL for Porter installation file'
     required: false
