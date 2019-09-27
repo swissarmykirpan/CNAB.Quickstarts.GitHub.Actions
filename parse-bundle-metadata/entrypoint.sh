@@ -2,7 +2,10 @@
 
 metadata_path=$1
 
-echo "${metadata_path}"
+cd $GITHUB_WORKSPACE
+ls
+
+echo "Metadata path: ${metadata_path}"
 
 echo "Installing yq"
 python -m pip install --upgrade pip yq
