@@ -7,7 +7,7 @@ feed_url=$4
 mixins=$5
 mixins_version=$6
 
-install_path="$HOME/${install_path}"
+install_path="${HOME}/${install_path}"
 
 echo "Installing porter to ${install_path}"
 
