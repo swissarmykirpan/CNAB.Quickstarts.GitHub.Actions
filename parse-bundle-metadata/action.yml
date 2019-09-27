@@ -1,0 +1,16 @@
+name: 'Parse bundle metadata'
+description: 'Extracts key value pairs from Porter YAML metadata file'
+inputs:
+  metadata_path:
+    description: 'Path to the Porter YAML metadata file'
+    required: true
+outputs:
+  name: 
+    description: 'The name of the bundle'
+  invocation_image:
+    description: 'The name of the container image to tag the invocation image with when it is built'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.metadata_path }}
