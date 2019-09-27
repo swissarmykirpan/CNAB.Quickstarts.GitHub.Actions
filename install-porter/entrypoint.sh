@@ -1,3 +1,5 @@
+#!/bin/bash
+
 install_path=$1
 porter_url=$2
 porter_version=$3
