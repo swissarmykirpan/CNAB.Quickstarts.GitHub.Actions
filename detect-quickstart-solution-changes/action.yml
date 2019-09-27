@@ -2,14 +2,11 @@ name: 'Detect quickstart solution changes'
 description: 'Looks at the set of changes in the commit or PR, and determines whether they are valid, whether a build is required, and if so, for which quickstart solution'
 inputs:
   repo_name:
-    required: false 
-    default: ${{ github.repository }}
+    required: true 
   pr_number: 
-    required: false
-    default: ${{ github.event.number }}
+    required: true
   source_version: 
-    required: false
-    default: ${{ github.sha }}
+    required: true
 outputs:
   changes_are_valid: 
     description: 'Boolean flag which shows whether the set of changes in the commit or PR are valid'
