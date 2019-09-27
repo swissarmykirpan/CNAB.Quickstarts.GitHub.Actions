@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 install_path=$1
 porter_url=$2
