@@ -8,12 +8,13 @@ mixins=$5
 mixins_version=$6
 
 install_path="$HOME/$install_path"
+porter_url="${porter_url}/${porter_version}/porter-linux-amd64"
 
-echo "Installing porter to ${install_path}"
+echo "Installing porter from ${porter_url} to ${install_path}"
 
 mkdir -p "${install_path}"
-curl -fLo "${install_path}/porter" "${porter_url}/${porter_version}/porter-linux-amd64"
-chmod +x "${install_path}"
+curl -fLo "${install_path}/porter" "${porter_url}"
+chmod +x "${install_path}/porter"
 cp "${install_path}/porter" "${install_path}/porter-runtime"
 
 echo Installed "$("${install_path}/porter" version)"

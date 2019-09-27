@@ -8,7 +8,7 @@ inputs:
   porter_url:
     description: 'URL for Porter installation file'
     required: false
-    default: 'https://github.com/simongdavies/porter/releases/download/'
+    default: 'https://github.com/simongdavies/porter/releases/download'
     #default: 'https://cdn.deislabs.io/porter'
   porter_version:
     description: 'Version of Porter to install'
