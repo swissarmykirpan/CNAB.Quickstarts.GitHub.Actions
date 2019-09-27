@@ -17,7 +17,7 @@ cp "${install_path}/porter" "${install_path}/porter-runtime"
 echo Installed "$("${install_path}/porter" version)"
 
 
-echo "Installing mixins"
+echo "Installing mixins: ${mixins}"
 
 IFS=',' read -ra mixins_array <<< "$mixins"
 
