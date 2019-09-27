@@ -4,7 +4,7 @@ inputs:
   install_path:
     description: 'Directory to install Porter, relative to $HOME'
     required: false
-    default: 'porter'
+    default: '.porter'
   porter_url:
     description: 'URL for Porter installation file'
     required: false
