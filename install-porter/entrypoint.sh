@@ -16,7 +16,7 @@ mkdir -p "${install_path}"
 
 porter_path=${install_path}/porter
 
-curl -fLo "${porter_path}" "${porter_url}"
+wget -O "${porter_path}" "${porter_url}"
 chmod +x "${porter_path}"
 cp "${porter_path}" "${install_path}/porter-runtime"
 
