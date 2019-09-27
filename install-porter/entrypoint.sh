@@ -13,11 +13,14 @@ porter_url="${porter_url}/${porter_version}/porter-linux-amd64"
 echo "Installing porter from ${porter_url} to ${install_path}"
 
 mkdir -p "${install_path}"
-curl -fLo "${install_path}/porter" "${porter_url}"
-chmod +x "${install_path}/porter"
-cp "${install_path}/porter" "${install_path}/porter-runtime"
 
-echo Installed "$("${install_path}/porter" version)"
+porter_path=${install_path}/porter
+
+curl -fLo "${porter_path}" "${porter_url}"
+chmod +x "${porter_path}"
+cp "${porter_path}" "${install_path}/porter-runtime"
+
+echo Installed "$("${porter_path}" version)"
 
 
 echo "Installing mixins: ${mixins}"
@@ -26,9 +29,10 @@ IFS=',' read -ra mixins_array <<< "$mixins"
 
 for mixin in "${mixins_array[@]}"
 do
-    "${install_path}/porter" mixin install $mixin --version "${mixins_version}" --feed-url "${feed_url}"
+    "${porter_path}" mixin install $mixin --version "${mixins_version}" --feed-url "${feed_url}"
 done
 
 echo "Installed mixins"
 
-echo ::set-output name=install_path::${install_path}
+echo ::add-path::${porter_path}
+echo ::set-output name=porter_path::${porter_path}

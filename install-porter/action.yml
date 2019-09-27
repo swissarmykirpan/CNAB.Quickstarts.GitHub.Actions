@@ -26,8 +26,8 @@ inputs:
     required: false
     default: 'latest'
 outputs:
-  install-path: 
-    description: 'Directory Porter was installed'
+  porter-path: 
+    description: 'Path to the Porter tool executable'
 runs:
   using: 'docker'
   image: 'Dockerfile'
