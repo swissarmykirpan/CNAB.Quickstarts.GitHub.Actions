@@ -1,0 +1,42 @@
+name: 'Install Porter'
+description: 'Installs Porter on the agent'
+inputs:
+  install_path:
+    description: 'Directory to install Porter'
+    required: false
+    default: '${{ runner.temp }}/porter'
+  porter_url:
+    description: 'URL for Porter installation file'
+    required: false
+    default: 'https://github.com/simongdavies/porter/releases/download/'
+    #default: 'https://cdn.deislabs.io/porter'
+  porter_version:
+    description: 'Version of Porter to install'
+    required: false
+    default: 'fix'
+    #default: 'latest'
+  feed_url:
+    description: 'Feed URL for mixins'
+    required: false
+    default: 'https://cdn.deislabs.io/porter/atom.xml'
+  mixins:
+    description: 'Comma separated list of mixins to install'
+    required: false
+    default: 'exec,kubernetes,helm,azure'
+  mixins_version:
+    description: 'Version of mixins to install'
+    required: false
+    default: 'latest'
+outputs:
+  install-path: 
+    description: 'Directory Porter was installed'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.install_path }}
+    - ${{ inputs.porter_url }}
+    - ${{ inputs.porter_version }}
+    - ${{ inputs.feed_url }}
+    - ${{ inputs.mixins }}
+    - ${{ inputs.mixins_version }}
