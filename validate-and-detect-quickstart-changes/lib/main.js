@@ -17,9 +17,20 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
+require("./functions");
+const functions_1 = require("./functions");
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            let trigger = core.getInput('trigger');
+            let repoName = core.getInput('repo_name');
+            let sourceVersion = core.getInput('source_version');
+            let prNumberStr = core.getInput('pr_number');
+            let prNumber;
+            if (prNumberStr) {
+                prNumber = parseInt(prNumberStr);
+            }
+            functions_1.getFiles(trigger, repoName, sourceVersion, prNumber);
         }
         catch (error) {
             core.setFailed(error.message);
