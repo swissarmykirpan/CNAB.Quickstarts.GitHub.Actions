@@ -5,16 +5,21 @@ trigger=$2
 pr_number=$3
 source_version=$4
 
-if [ "${trigger}" == "push" ]; then
+if [ "${trigger}" == "push" ]
+then
     commit_uri=https://api.github.com/repos/${repo_name}/commits/${source_version}
     echo "Merge Commit uri: ${commit_uri}"
     files=$(curl "${commit_uri}"|jq '[.files[].filename]') 
-fi
 
-if [ "${trigger}" == "pull_request" ]; then
+elif [ "${trigger}" == "pull_request" ]
+then
     pr_uri="https://api.github.com/repos/${repo_name}/pulls/${pr_number}/files"
     echo "PR uri: ${pr_uri}"
     files=$(curl "${pr_uri}"|jq '[.[].filename]') 
+
+else
+    echo "Unsupported trigger type: $trigger"
+    exit 1
 fi
 
 echo "Files changed:"
