@@ -25,5 +25,6 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.repo_name }}
+    - ${{ inputs.trigger }}
     - ${{ inputs.pr_number }}
     - ${{ inputs.source_version }}
