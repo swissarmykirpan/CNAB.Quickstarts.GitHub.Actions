@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 repo_name=$1
 pr_number=$2
