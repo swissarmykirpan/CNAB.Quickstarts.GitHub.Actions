@@ -1,0 +1,52 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const core = __importStar(require("@actions/core"));
+const jsonpath_1 = __importDefault(require("jsonpath"));
+const axios_1 = __importDefault(require("axios"));
+function getFiles(trigger, repoName, sourceVersion, prNumber) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let files;
+        if (trigger == "push") {
+            let commitUri = `https://api.github.com/repos/${repoName}/commits/${sourceVersion}`;
+            core.info(`Merge Commit uri: ${commitUri}`);
+            let response = yield axios_1.default.get(commitUri);
+            let data = yield response.data;
+            files = jsonpath_1.default.query(data, '$..filename');
+        }
+        else if (trigger == "pull_request") {
+            let prUri = `https://api.github.com/repos/${repoName}/pulls/${prNumber}/files`;
+            core.info(`PR uri: ${prUri}`);
+            let response = yield axios_1.default.get(prUri);
+            let data = yield response.data;
+            files = jsonpath_1.default.query(data, '$..filename');
+        }
+        else {
+            throw `Unsupported trigger type: ${trigger}`;
+        }
+        core.info("Files changed:");
+        files.forEach(file => {
+            core.info(file);
+        });
+        return files;
+    });
+}
+exports.getFiles = getFiles;

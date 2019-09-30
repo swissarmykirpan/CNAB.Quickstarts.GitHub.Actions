@@ -1,0 +1,29 @@
+{
+  "name": "validate-and-detect-quickstart-changes",
+  "version": "1.0.0",
+  "description": "Looks at the set of changes in the commit or PR, and determines whether they are valid, whether a build is required, and if so, for which quickstart solution",
+  "main": "lib/main.js",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "package": "ncc build lib/main.js"
+  },
+  "author": "endjin",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.0.0",
+    "@types/jsonpath": "^0.2.0",
+    "axios": "^0.19.0",
+    "jsonpath": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.0.4",
+    "@zeit/ncc": "^0.20.5",
+    "jest": "^24.8.0",
+    "jest-circus": "^24.7.1",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.1"
+  }
+}

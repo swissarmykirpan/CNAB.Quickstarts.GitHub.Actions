@@ -1,0 +1,25 @@
+name: 'Detect quickstart solution changes'
+description: 'Looks at the set of changes in the commit or PR, and determines whether they are valid, whether a build is required, and if so, for which quickstart solution'
+inputs:
+  repo_name:
+    required: true
+    description: 'The full name of GitHub repo, in the format <owner>/<repo_name>'
+  trigger:
+    required: true
+    description: 'The trigger event for the workflow. The action supports "push" and "pull_request" triggers.' 
+  pr_number: 
+    required: true
+    description: 'If a "pull_request" trigger, the Pull Request number.'
+  source_version: 
+    required: true
+    description: 'If a "push" trigger, the commit SHA.'
+outputs:
+  changes_are_valid: 
+    description: 'Boolean flag which shows whether the set of changes in the commit or PR are valid'
+  build_required: 
+    description: 'Boolean flag which shows whether a build is required for the set of changes'
+  quickstart_solution_path:
+    description: 'Path to the quickstart solution that has been modified/added'
+runs:
+  using: 'node12'
+  main: 'dist/main.js'
