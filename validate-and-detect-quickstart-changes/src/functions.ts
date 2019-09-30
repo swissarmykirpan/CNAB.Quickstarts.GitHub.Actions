@@ -38,5 +38,6 @@ export async function getFiles(trigger: string, repoName: string, sourceVersion?
         return files;
     } catch (error) {
         core.setFailed(error.message);
+        throw error;
     }
 }
