@@ -2240,6 +2240,19 @@ function isBuildRequired(changes) {
     });
 }
 exports.isBuildRequired = isBuildRequired;
+function getQuickstartSolutionPath(changes) {
+    let found = changes.find(function (path) { return path.split('/').length > 2; });
+    if (found) {
+        return found
+            .split('/')
+            .splice(0, 2)
+            .join('/');
+    }
+    else {
+        throw "No quickstart solution changes found.";
+    }
+}
+exports.getQuickstartSolutionPath = getQuickstartSolutionPath;
 
 
 /***/ }),
@@ -2697,7 +2710,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
-__webpack_require__(102);
 const functions_1 = __webpack_require__(102);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -2712,8 +2724,16 @@ function run() {
             }
             let files = yield functions_1.getFiles(trigger, repoName, sourceVersion, prNumber);
             let changesAreValid = functions_1.areChangesValid(files);
-            let buildIsRequired = functions_1.isBuildRequired(files);
+            let buildIsRequired = false;
+            if (changesAreValid) {
+                let buildIsRequired = functions_1.isBuildRequired(files);
+                if (buildIsRequired) {
+                    let quickstartSolutionPath = functions_1.getQuickstartSolutionPath(files);
+                    core.setOutput("quickstart_solution_path", quickstartSolutionPath);
+                }
+            }
             core.setOutput("changes_are_valid", `${changesAreValid}`);
+            core.setOutput("build_is_required", `${buildIsRequired}`);
         }
         catch (error) {
             core.setFailed(error.message);

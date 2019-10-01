@@ -79,3 +79,16 @@ export function isBuildRequired(changes: string[]) : boolean {
         return path.split('/').length < 3;
     });
 }
+
+export function getQuickstartSolutionPath(changes: string[]) : string {
+    let found = changes.find(function(path) { return path.split('/').length > 2; });
+
+    if (found) {
+        return found
+            .split('/')
+            .splice(0, 2)
+            .join('/');
+    } else {
+        throw "No quickstart solution changes found."
+    }
+}

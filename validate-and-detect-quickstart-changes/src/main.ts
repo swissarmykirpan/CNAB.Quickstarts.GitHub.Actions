@@ -1,6 +1,5 @@
 import * as core from '@actions/core';
-import './functions';
-import { getFiles, areChangesValid, isBuildRequired } from './functions';
+import { getFiles, areChangesValid, isBuildRequired, getQuickstartSolutionPath } from './functions';
 
 async function run() {
   try {
@@ -17,9 +16,17 @@ async function run() {
     let files = await getFiles(trigger, repoName, sourceVersion, prNumber);
 
     let changesAreValid = areChangesValid(files);
-    let buildIsRequired = isBuildRequired(files);
+    let buildIsRequired : boolean = false;
+    if (changesAreValid) {
+      let buildIsRequired = isBuildRequired(files);
+      if (buildIsRequired) {
+        let quickstartSolutionPath = getQuickstartSolutionPath(files);
+        core.setOutput("quickstart_solution_path", quickstartSolutionPath);
+      }
+    }
 
     core.setOutput("changes_are_valid", `${changesAreValid}`);
+    core.setOutput("build_is_required", `${buildIsRequired}`);
 
   } catch (error) {
     core.setFailed(error.message);

@@ -90,3 +90,16 @@ function isBuildRequired(changes) {
     });
 }
 exports.isBuildRequired = isBuildRequired;
+function getQuickstartSolutionPath(changes) {
+    let found = changes.find(function (path) { return path.split('/').length > 2; });
+    if (found) {
+        return found
+            .split('/')
+            .splice(0, 2)
+            .join('/');
+    }
+    else {
+        throw "No quickstart solution changes found.";
+    }
+}
+exports.getQuickstartSolutionPath = getQuickstartSolutionPath;

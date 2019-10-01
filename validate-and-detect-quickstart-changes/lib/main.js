@@ -17,7 +17,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
-require("./functions");
 const functions_1 = require("./functions");
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -32,8 +31,16 @@ function run() {
             }
             let files = yield functions_1.getFiles(trigger, repoName, sourceVersion, prNumber);
             let changesAreValid = functions_1.areChangesValid(files);
-            let buildIsRequired = functions_1.isBuildRequired(files);
+            let buildIsRequired = false;
+            if (changesAreValid) {
+                let buildIsRequired = functions_1.isBuildRequired(files);
+                if (buildIsRequired) {
+                    let quickstartSolutionPath = functions_1.getQuickstartSolutionPath(files);
+                    core.setOutput("quickstart_solution_path", quickstartSolutionPath);
+                }
+            }
             core.setOutput("changes_are_valid", `${changesAreValid}`);
+            core.setOutput("build_is_required", `${buildIsRequired}`);
         }
         catch (error) {
             core.setFailed(error.message);
