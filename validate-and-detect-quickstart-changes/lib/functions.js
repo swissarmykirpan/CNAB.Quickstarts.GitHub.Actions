@@ -103,3 +103,13 @@ function getQuickstartSolutionPath(changes) {
     }
 }
 exports.getQuickstartSolutionPath = getQuickstartSolutionPath;
+function getQuickstartTool(changes) {
+    let found = changes.find(function (path) { return path.split('/').length > 2; });
+    if (found) {
+        return found.split('/')[0];
+    }
+    else {
+        throw "No quickstart solution changes found.";
+    }
+}
+exports.getQuickstartTool = getQuickstartTool;

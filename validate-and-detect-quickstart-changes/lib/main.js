@@ -31,16 +31,20 @@ function run() {
             }
             let files = yield functions_1.getFiles(trigger, repoName, sourceVersion, prNumber);
             let changesAreValid = functions_1.areChangesValid(files);
-            let buildIsRequired = false;
+            core.setOutput("changes_are_valid", `${changesAreValid}`);
             if (changesAreValid) {
                 let buildIsRequired = functions_1.isBuildRequired(files);
+                core.setOutput("build_is_required", `${buildIsRequired}`);
                 if (buildIsRequired) {
                     let quickstartSolutionPath = functions_1.getQuickstartSolutionPath(files);
+                    let quickstartTool = functions_1.getQuickstartTool(files);
                     core.setOutput("quickstart_solution_path", quickstartSolutionPath);
+                    core.setOutput("quickstart_tool", quickstartTool);
                 }
             }
-            core.setOutput("changes_are_valid", `${changesAreValid}`);
-            core.setOutput("build_is_required", `${buildIsRequired}`);
+            else {
+                throw new Error("Set of changes in commit or PR are invalid.");
+            }
         }
         catch (error) {
             core.setFailed(error.message);

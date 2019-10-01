@@ -92,3 +92,13 @@ export function getQuickstartSolutionPath(changes: string[]) : string {
         throw "No quickstart solution changes found."
     }
 }
+
+export function getQuickstartTool(changes: string[]) : string {
+    let found = changes.find(function(path) { return path.split('/').length > 2; });
+
+    if (found) {
+        return found.split('/')[0];
+    } else {
+        throw "No quickstart solution changes found."
+    }
+}

@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import { getFiles, areChangesValid, isBuildRequired, getQuickstartSolutionPath } from './functions';
+import { getFiles, areChangesValid, isBuildRequired, getQuickstartSolutionPath, getQuickstartTool } from './functions';
 
 async function run() {
   try {
@@ -16,18 +16,23 @@ async function run() {
     let files = await getFiles(trigger, repoName, sourceVersion, prNumber);
 
     let changesAreValid = areChangesValid(files);
-    let buildIsRequired : boolean = false;
+    core.setOutput("changes_are_valid", `${changesAreValid}`);
+
     if (changesAreValid) {
       let buildIsRequired = isBuildRequired(files);
+      core.setOutput("build_is_required", `${buildIsRequired}`);
+
       if (buildIsRequired) {
+
         let quickstartSolutionPath = getQuickstartSolutionPath(files);
+        let quickstartTool = getQuickstartTool(files);
+
         core.setOutput("quickstart_solution_path", quickstartSolutionPath);
+        core.setOutput("quickstart_tool", quickstartTool);
       }
+    } else{
+      throw new Error("Set of changes in commit or PR are invalid.");
     }
-
-    core.setOutput("changes_are_valid", `${changesAreValid}`);
-    core.setOutput("build_is_required", `${buildIsRequired}`);
-
   } catch (error) {
     core.setFailed(error.message);
     throw error;
