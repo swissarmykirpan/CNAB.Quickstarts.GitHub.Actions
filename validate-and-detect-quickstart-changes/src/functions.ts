@@ -41,3 +41,35 @@ export async function getFiles(trigger: string, repoName: string, sourceVersion?
         throw error;
     }
 }
+
+export function changesAreValid(changes: string[]) : boolean {
+    let changesAreValid = true;
+    
+    let noChangesInQuickstartSolutions = changes.every(function(path) {
+        return path.split('/').length < 3;
+    });
+
+    let previousQuickstartSolutionPath : string;
+    if (!noChangesInQuickstartSolutions) {
+       let allQuickstartSolutionChangesAreInTheSameFolder = changes.every(function(path){
+            let segments = path.split('/');
+            
+            let quickstartSolutionPath = segments.slice(0, 2).join('/');
+
+            if (segments.length > 2) {
+                if (previousQuickstartSolutionPath && previousQuickstartSolutionPath != quickstartSolutionPath) {
+                    return false;
+                } else {
+                    previousQuickstartSolutionPath = quickstartSolutionPath;
+                    return true;
+                }
+            } else {
+                return true;
+            }           
+       });
+
+       changesAreValid = allQuickstartSolutionChangesAreInTheSameFolder;
+    }
+
+    return changesAreValid;
+} 
