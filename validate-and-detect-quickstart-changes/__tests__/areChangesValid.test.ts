@@ -54,6 +54,17 @@ test('changes are valid when changing a multiple files in a quickstart solution 
     expect(changesAreValid).toBe(true);
 });
 
+test('changes are valid when changing a file in a quickstart solution folder, and a file with a path that begins with a dot', async() => {
+    let changes = [
+        "porter/qs1/porter.yaml",
+        ".github/workflows/ci.yml"
+    ];
+
+    let changesAreValid = functions.areChangesValid(changes);
+
+    expect(changesAreValid).toBe(true);
+});
+
 test('changes are invalid when changing a files in 2 different quickstart solution folders', async() => {
     let changes = [
         "porter/qs1/porter.yaml",

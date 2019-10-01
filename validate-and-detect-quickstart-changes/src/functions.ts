@@ -43,8 +43,10 @@ export async function getFiles(trigger: string, repoName: string, sourceVersion?
 }
 
 export function areChangesValid(changes: string[]) : boolean {
+    changes = removeFilesWithPathThatBeginsWithDot(changes);
+
     let changesAreValid = true;
-    
+
     let noChangesInQuickstartSolutions = changes.every(function(path) {
         return path.split('/').length < 3;
     });
@@ -75,12 +77,16 @@ export function areChangesValid(changes: string[]) : boolean {
 } 
 
 export function isBuildRequired(changes: string[]) : boolean {
+    changes = removeFilesWithPathThatBeginsWithDot(changes);
+
     return !changes.every(function (path) {
         return path.split('/').length < 3;
     });
 }
 
 export function getQuickstartSolutionPath(changes: string[]) : string {
+    changes = removeFilesWithPathThatBeginsWithDot(changes);
+
     let found = changes.find(function(path) { return path.split('/').length > 2; });
 
     if (found) {
@@ -94,6 +100,7 @@ export function getQuickstartSolutionPath(changes: string[]) : string {
 }
 
 export function getQuickstartTool(changes: string[]) : string {
+    changes = removeFilesWithPathThatBeginsWithDot(changes);
     let found = changes.find(function(path) { return path.split('/').length > 2; });
 
     if (found) {
@@ -101,4 +108,10 @@ export function getQuickstartTool(changes: string[]) : string {
     } else {
         throw "No quickstart solution changes found."
     }
+}
+
+function removeFilesWithPathThatBeginsWithDot(changes: string[]) : string[] {
+    return changes.filter(function(path) {
+        return path[0] != '.';
+    });
 }

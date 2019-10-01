@@ -21,6 +21,16 @@ test('build is not required when changing a file in the root and a file in a dir
     expect(buildIsRequired).toBe(false);
 });
 
+test('build is not required when changing files that begin with a dot in the path', async() => {
+    let changes = [
+        ".github/workflow/ci.yml"
+    ];
+
+    let buildIsRequired = functions.isBuildRequired(changes);
+
+    expect(buildIsRequired).toBe(false);
+});
+
 test('build is required when changing a file in the root, a file in a direct subfolder, and a file in a quickstart solution folder', async() => {
     let changes = [
         "readme.md",

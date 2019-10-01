@@ -57,6 +57,7 @@ function getFiles(trigger, repoName, sourceVersion, prNumber) {
 }
 exports.getFiles = getFiles;
 function areChangesValid(changes) {
+    changes = removeFilesWithPathThatBeginsWithDot(changes);
     let changesAreValid = true;
     let noChangesInQuickstartSolutions = changes.every(function (path) {
         return path.split('/').length < 3;
@@ -85,12 +86,14 @@ function areChangesValid(changes) {
 }
 exports.areChangesValid = areChangesValid;
 function isBuildRequired(changes) {
+    changes = removeFilesWithPathThatBeginsWithDot(changes);
     return !changes.every(function (path) {
         return path.split('/').length < 3;
     });
 }
 exports.isBuildRequired = isBuildRequired;
 function getQuickstartSolutionPath(changes) {
+    changes = removeFilesWithPathThatBeginsWithDot(changes);
     let found = changes.find(function (path) { return path.split('/').length > 2; });
     if (found) {
         return found
@@ -104,6 +107,7 @@ function getQuickstartSolutionPath(changes) {
 }
 exports.getQuickstartSolutionPath = getQuickstartSolutionPath;
 function getQuickstartTool(changes) {
+    changes = removeFilesWithPathThatBeginsWithDot(changes);
     let found = changes.find(function (path) { return path.split('/').length > 2; });
     if (found) {
         return found.split('/')[0];
@@ -113,3 +117,8 @@ function getQuickstartTool(changes) {
     }
 }
 exports.getQuickstartTool = getQuickstartTool;
+function removeFilesWithPathThatBeginsWithDot(changes) {
+    return changes.filter(function (path) {
+        return path[0] != '.';
+    });
+}
