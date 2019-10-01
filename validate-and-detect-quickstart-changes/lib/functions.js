@@ -56,7 +56,7 @@ function getFiles(trigger, repoName, sourceVersion, prNumber) {
     });
 }
 exports.getFiles = getFiles;
-function changesAreValid(changes) {
+function areChangesValid(changes) {
     let changesAreValid = true;
     let noChangesInQuickstartSolutions = changes.every(function (path) {
         return path.split('/').length < 3;
@@ -83,4 +83,10 @@ function changesAreValid(changes) {
     }
     return changesAreValid;
 }
-exports.changesAreValid = changesAreValid;
+exports.areChangesValid = areChangesValid;
+function isBuildRequired(changes) {
+    return !changes.every(function (path) {
+        return path.split('/').length < 3;
+    });
+}
+exports.isBuildRequired = isBuildRequired;

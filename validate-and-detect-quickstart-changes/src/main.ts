@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
 import './functions';
-import { getFiles } from './functions';
+import { getFiles, areChangesValid, isBuildRequired } from './functions';
 
 async function run() {
   try {
@@ -14,7 +14,12 @@ async function run() {
         prNumber = parseInt(prNumberStr);
     }
 
-    getFiles(trigger, repoName, sourceVersion, prNumber);
+    let files = await getFiles(trigger, repoName, sourceVersion, prNumber);
+
+    let changesAreValid = areChangesValid(files);
+    let buildIsRequired = isBuildRequired(files);
+
+    core.setOutput("changes_are_valid", `${changesAreValid}`);
 
   } catch (error) {
     core.setFailed(error.message);

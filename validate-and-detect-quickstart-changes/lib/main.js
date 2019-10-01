@@ -30,7 +30,10 @@ function run() {
             if (prNumberStr) {
                 prNumber = parseInt(prNumberStr);
             }
-            functions_1.getFiles(trigger, repoName, sourceVersion, prNumber);
+            let files = yield functions_1.getFiles(trigger, repoName, sourceVersion, prNumber);
+            let changesAreValid = functions_1.areChangesValid(files);
+            let buildIsRequired = functions_1.isBuildRequired(files);
+            core.setOutput("changes_are_valid", `${changesAreValid}`);
         }
         catch (error) {
             core.setFailed(error.message);

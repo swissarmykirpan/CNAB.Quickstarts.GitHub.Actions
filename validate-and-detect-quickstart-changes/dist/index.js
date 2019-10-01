@@ -2206,7 +2206,7 @@ function getFiles(trigger, repoName, sourceVersion, prNumber) {
     });
 }
 exports.getFiles = getFiles;
-function changesAreValid(changes) {
+function areChangesValid(changes) {
     let changesAreValid = true;
     let noChangesInQuickstartSolutions = changes.every(function (path) {
         return path.split('/').length < 3;
@@ -2233,7 +2233,13 @@ function changesAreValid(changes) {
     }
     return changesAreValid;
 }
-exports.changesAreValid = changesAreValid;
+exports.areChangesValid = areChangesValid;
+function isBuildRequired(changes) {
+    return !changes.every(function (path) {
+        return path.split('/').length < 3;
+    });
+}
+exports.isBuildRequired = isBuildRequired;
 
 
 /***/ }),
@@ -2704,7 +2710,10 @@ function run() {
             if (prNumberStr) {
                 prNumber = parseInt(prNumberStr);
             }
-            functions_1.getFiles(trigger, repoName, sourceVersion, prNumber);
+            let files = yield functions_1.getFiles(trigger, repoName, sourceVersion, prNumber);
+            let changesAreValid = functions_1.areChangesValid(files);
+            let buildIsRequired = functions_1.isBuildRequired(files);
+            core.setOutput("changes_are_valid", `${changesAreValid}`);
         }
         catch (error) {
             core.setFailed(error.message);

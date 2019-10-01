@@ -42,7 +42,7 @@ export async function getFiles(trigger: string, repoName: string, sourceVersion?
     }
 }
 
-export function changesAreValid(changes: string[]) : boolean {
+export function areChangesValid(changes: string[]) : boolean {
     let changesAreValid = true;
     
     let noChangesInQuickstartSolutions = changes.every(function(path) {
@@ -73,3 +73,9 @@ export function changesAreValid(changes: string[]) : boolean {
 
     return changesAreValid;
 } 
+
+export function isBuildRequired(changes: string[]) : boolean {
+    return !changes.every(function (path) {
+        return path.split('/').length < 3;
+    });
+}
