@@ -87,9 +87,10 @@ function areChangesValid(changes) {
 exports.areChangesValid = areChangesValid;
 function isBuildRequired(changes) {
     changes = removeFilesWithPathThatBeginsWithDot(changes);
-    return !changes.every(function (path) {
-        return path.split('/').length < 3;
-    });
+    return changes.length > 0
+        && !changes.every(function (path) {
+            return path.split('/').length < 3;
+        });
 }
 exports.isBuildRequired = isBuildRequired;
 function getQuickstartSolutionPath(changes) {
