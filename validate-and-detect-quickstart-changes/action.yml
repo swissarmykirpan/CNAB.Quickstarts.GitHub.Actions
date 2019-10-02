@@ -20,6 +20,8 @@ outputs:
     description: 'Boolean flag which shows whether a build is required for the set of changes'
   quickstart_solution_path:
     description: 'Path to the quickstart solution that has been modified/added'
+  quickstart_tool:
+    description: 'The tool used for the quickstart solution (e.g. porter)'
 runs:
   using: 'node12'
   main: 'dist/index.js'
