@@ -24,35 +24,29 @@ const jsonpath_1 = __importDefault(require("jsonpath"));
 const axios_1 = __importDefault(require("axios"));
 function getFiles(trigger, repoName, sourceVersion, prNumber) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            let files;
-            if (trigger == "push") {
-                let commitUri = `https://api.github.com/repos/${repoName}/commits/${sourceVersion}`;
-                core.info(`Merge Commit uri: ${commitUri}`);
-                let response = yield axios_1.default.get(commitUri);
-                let data = yield response.data;
-                files = jsonpath_1.default.query(data, '$..filename');
-            }
-            else if (trigger == "pull_request") {
-                let prUri = `https://api.github.com/repos/${repoName}/pulls/${prNumber}/files`;
-                core.info(`PR uri: ${prUri}`);
-                let response = yield axios_1.default.get(prUri);
-                let data = yield response.data;
-                files = jsonpath_1.default.query(data, '$..filename');
-            }
-            else {
-                throw `Unsupported trigger type: ${trigger}`;
-            }
-            core.info("Files changed:");
-            files.forEach(file => {
-                core.info(file);
-            });
-            return files;
+        let files;
+        if (trigger == "push") {
+            let commitUri = `https://api.github.com/repos/${repoName}/commits/${sourceVersion}`;
+            core.info(`Merge Commit uri: ${commitUri}`);
+            let response = yield axios_1.default.get(commitUri);
+            let data = yield response.data;
+            files = jsonpath_1.default.query(data, '$..filename');
         }
-        catch (error) {
-            core.setFailed(error.message);
-            throw error;
+        else if (trigger == "pull_request") {
+            let prUri = `https://api.github.com/repos/${repoName}/pulls/${prNumber}/files`;
+            core.info(`PR uri: ${prUri}`);
+            let response = yield axios_1.default.get(prUri);
+            let data = yield response.data;
+            files = jsonpath_1.default.query(data, '$..filename');
         }
+        else {
+            throw new Error(`Unsupported trigger type: ${trigger}`);
+        }
+        core.info("Files changed:");
+        files.forEach(file => {
+            core.info(file);
+        });
+        return files;
     });
 }
 exports.getFiles = getFiles;

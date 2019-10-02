@@ -34,9 +34,8 @@ async function run() {
       throw new Error("Set of changes in commit or PR are invalid.");
     }
   } catch (error) {
-    core.setFailed(error.message);
     throw error;
   }
 }
 
-run();
+run().catch(error => core.setFailed(error.message));

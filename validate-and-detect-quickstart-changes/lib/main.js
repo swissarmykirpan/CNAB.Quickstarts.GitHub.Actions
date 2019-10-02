@@ -47,9 +47,8 @@ function run() {
             }
         }
         catch (error) {
-            core.setFailed(error.message);
             throw error;
         }
     });
 }
-run();
+run().catch(error => core.setFailed(error.message));
