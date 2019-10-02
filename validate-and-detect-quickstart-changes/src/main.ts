@@ -1,7 +1,7 @@
 import * as core from '@actions/core';
 import { getFiles, areChangesValid, isBuildRequired, getQuickstartSolutionPath, getQuickstartTool } from './functions';
 
-async function run() {
+export async function run() {
   try {
     let trigger = core.getInput('trigger');
     let repoName = core.getInput('repo_name');
@@ -16,19 +16,19 @@ async function run() {
     let files = await getFiles(trigger, repoName, sourceVersion, prNumber);
 
     let changesAreValid = areChangesValid(files);
-    core.setOutput("changes_are_valid", `${changesAreValid}`);
+    setOutput("changes_are_valid", `${changesAreValid}`);
 
     if (changesAreValid) {
       let buildIsRequired = isBuildRequired(files);
-      core.setOutput("build_is_required", `${buildIsRequired}`);
+      setOutput("build_is_required", `${buildIsRequired}`);
 
       if (buildIsRequired) {
 
         let quickstartSolutionPath = getQuickstartSolutionPath(files);
         let quickstartTool = getQuickstartTool(files);
 
-        core.setOutput("quickstart_solution_path", quickstartSolutionPath);
-        core.setOutput("quickstart_tool", quickstartTool);
+        setOutput("quickstart_solution_path", quickstartSolutionPath);
+        setOutput("quickstart_tool", quickstartTool);
       }
     } else{
       throw new Error("Set of changes in commit or PR are invalid.");
@@ -36,6 +36,12 @@ async function run() {
   } catch (error) {
     throw error;
   }
+}
+
+// core.setOutput currently erroneously appends an extra comma to the logging command,
+// so we need to use our own function until this is fixed
+function setOutput(name: string, value: string) {
+  process.stdout.write(`::set-output name=${name}::${value}`)
 }
 
 run().catch(error => core.setFailed(error.message));

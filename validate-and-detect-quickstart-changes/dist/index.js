@@ -2738,15 +2738,15 @@ function run() {
             }
             let files = yield functions_1.getFiles(trigger, repoName, sourceVersion, prNumber);
             let changesAreValid = functions_1.areChangesValid(files);
-            core.setOutput("changes_are_valid", `${changesAreValid}`);
+            setOutput("changes_are_valid", `${changesAreValid}`);
             if (changesAreValid) {
                 let buildIsRequired = functions_1.isBuildRequired(files);
-                core.setOutput("build_is_required", `${buildIsRequired}`);
+                setOutput("build_is_required", `${buildIsRequired}`);
                 if (buildIsRequired) {
                     let quickstartSolutionPath = functions_1.getQuickstartSolutionPath(files);
                     let quickstartTool = functions_1.getQuickstartTool(files);
-                    core.setOutput("quickstart_solution_path", quickstartSolutionPath);
-                    core.setOutput("quickstart_tool", quickstartTool);
+                    setOutput("quickstart_solution_path", quickstartSolutionPath);
+                    setOutput("quickstart_tool", quickstartTool);
                 }
             }
             else {
@@ -2757,6 +2757,12 @@ function run() {
             throw error;
         }
     });
+}
+exports.run = run;
+// core.setOutput currently erroneously appends an extra comma to the logging command,
+// so we need to use our own function until this is fixed
+function setOutput(name, value) {
+    process.stdout.write(`::set-output name=${name}::${value}`);
 }
 run().catch(error => core.setFailed(error.message));
 
