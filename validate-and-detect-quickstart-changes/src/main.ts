@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import { getFiles, areChangesValid, isBuildRequired, getQuickstartSolutionPath, getQuickstartTool } from './functions';
+import * as os from 'os';
 
 export async function run() {
   try {
@@ -41,7 +42,7 @@ export async function run() {
 // core.setOutput currently erroneously appends an extra comma to the logging command,
 // so we need to use our own function until this is fixed
 function setOutput(name: string, value: string) {
-  process.stdout.write(`::set-output name=${name}::${value}`)
+  process.stdout.write(`::set-output name=${name}::${value}${os.EOL}`)
 }
 
 run().catch(error => core.setFailed(error.message));

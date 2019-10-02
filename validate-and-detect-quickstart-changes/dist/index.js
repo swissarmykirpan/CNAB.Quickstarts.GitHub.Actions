@@ -2725,6 +2725,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const functions_1 = __webpack_require__(102);
+const os = __importStar(__webpack_require__(87));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -2762,7 +2763,7 @@ exports.run = run;
 // core.setOutput currently erroneously appends an extra comma to the logging command,
 // so we need to use our own function until this is fixed
 function setOutput(name, value) {
-    process.stdout.write(`::set-output name=${name}::${value}`);
+    process.stdout.write(`::set-output name=${name}::${value}${os.EOL}`);
 }
 run().catch(error => core.setFailed(error.message));
 
