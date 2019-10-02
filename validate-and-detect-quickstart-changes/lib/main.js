@@ -18,7 +18,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const functions_1 = require("./functions");
-const os = __importStar(require("os"));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -32,15 +31,15 @@ function run() {
             }
             let files = yield functions_1.getFiles(trigger, repoName, sourceVersion, prNumber);
             let changesAreValid = functions_1.areChangesValid(files);
-            setOutput("changes_are_valid", `${changesAreValid}`);
+            core.setOutput("changes_are_valid", `${changesAreValid}`);
             if (changesAreValid) {
                 let buildIsRequired = functions_1.isBuildRequired(files);
-                setOutput("build_is_required", `${buildIsRequired}`);
+                core.setOutput("build_is_required", `${buildIsRequired}`);
                 if (buildIsRequired) {
                     let quickstartSolutionPath = functions_1.getQuickstartSolutionPath(files);
                     let quickstartTool = functions_1.getQuickstartTool(files);
-                    setOutput("quickstart_solution_path", quickstartSolutionPath);
-                    setOutput("quickstart_tool", quickstartTool);
+                    core.setOutput("quickstart_solution_path", quickstartSolutionPath);
+                    core.setOutput("quickstart_tool", quickstartTool);
                 }
             }
             else {
@@ -53,9 +52,4 @@ function run() {
     });
 }
 exports.run = run;
-// core.setOutput currently erroneously appends an extra comma to the logging command,
-// so we need to use our own function until this is fixed
-function setOutput(name, value) {
-    process.stdout.write(`::set-output name=${name}::${value}${os.EOL}`);
-}
 run().catch(error => core.setFailed(error.message));

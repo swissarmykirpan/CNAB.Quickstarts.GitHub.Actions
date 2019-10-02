@@ -17,19 +17,19 @@ export async function run() {
     let files = await getFiles(trigger, repoName, sourceVersion, prNumber);
 
     let changesAreValid = areChangesValid(files);
-    setOutput("changes_are_valid", `${changesAreValid}`);
+    core.setOutput("changes_are_valid", `${changesAreValid}`);
 
     if (changesAreValid) {
       let buildIsRequired = isBuildRequired(files);
-      setOutput("build_is_required", `${buildIsRequired}`);
+      core.setOutput("build_is_required", `${buildIsRequired}`);
 
       if (buildIsRequired) {
 
         let quickstartSolutionPath = getQuickstartSolutionPath(files);
         let quickstartTool = getQuickstartTool(files);
 
-        setOutput("quickstart_solution_path", quickstartSolutionPath);
-        setOutput("quickstart_tool", quickstartTool);
+        core.setOutput("quickstart_solution_path", quickstartSolutionPath);
+        core.setOutput("quickstart_tool", quickstartTool);
       }
     } else{
       throw new Error("Set of changes in commit or PR are invalid.");
@@ -37,12 +37,6 @@ export async function run() {
   } catch (error) {
     throw error;
   }
-}
-
-// core.setOutput currently erroneously appends an extra comma to the logging command,
-// so we need to use our own function until this is fixed
-function setOutput(name: string, value: string) {
-  process.stdout.write(`::set-output name=${name}::${value}${os.EOL}`)
 }
 
 run().catch(error => core.setFailed(error.message));
