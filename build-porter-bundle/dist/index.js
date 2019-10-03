@@ -512,14 +512,18 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
+const path = __importStar(__webpack_require__(622));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let porterPath = core.getInput("porter_path");
             let bundleDir = core.getInput("bundle_dir");
             let invocationImage = core.getInput("invocation_image");
+            let gitHubWorkspace = process.env.GITHUB_WORKSPACE || '';
+            let wd = path.join(gitHubWorkspace, bundleDir);
+            core.info(`Running '${porterPath} build' in working directory '${wd}'`);
             const execa = __webpack_require__(955);
-            const { stdout, stderr } = yield execa(porterPath, ['build'], { cwd: bundleDir });
+            const { stdout, stderr } = yield execa(porterPath, ['build'], { cwd: wd });
             core.info(stdout);
             core.error(stderr);
         }
