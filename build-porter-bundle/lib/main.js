@@ -17,14 +17,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
-const exec = __importStar(require("@actions/exec"));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let porterPath = core.getInput("porter_path");
             let bundleDir = core.getInput("bundle_dir");
             let invocationImage = core.getInput("invocation_image");
-            yield exec.exec(porterPath, ['build'], { cwd: bundleDir });
+            const execa = require('execa');
+            const { stdout } = yield execa.execa(porterPath, ['build'], { cwd: bundleDir });
+            core.info(stdout);
         }
         catch (error) {
             throw error;

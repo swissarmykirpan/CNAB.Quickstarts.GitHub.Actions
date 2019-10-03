@@ -1,5 +1,4 @@
 import * as core from '@actions/core';
-import * as exec from '@actions/exec';
 
 export async function run() {
   try {
@@ -7,7 +6,9 @@ export async function run() {
     let bundleDir = core.getInput("bundle_dir");
     let invocationImage = core.getInput("invocation_image");
 
-    await exec.exec(porterPath, ['build'], { cwd: bundleDir }); 
+    const execa = require('execa');
+    const {stdout} = await execa.execa(porterPath, ['build'], { cwd: bundleDir });
+	  core.info(stdout);
   } catch (error) {
     throw error;
   }
