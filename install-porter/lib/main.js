@@ -18,7 +18,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const tc = __importStar(require("@actions/tool-cache"));
-const fs = __importStar(require("fs"));
+const exec = __importStar(require("@actions/exec"));
+const io = __importStar(require("@actions/io"));
+const path = __importStar(require("path"));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -32,14 +34,16 @@ function run() {
             core.info(`Installing porter from ${fullPorterUrl}`);
             let downloadPath = yield tc.downloadTool(fullPorterUrl);
             core.info(`Download path: ${downloadPath}`);
-            fs.mkdir('.porter', { recursive: true }, (err) => { if (err)
-                throw err; });
-            let porterTool = '.porter/porter';
-            fs.copyFile(downloadPath, porterTool, (err) => { if (err)
-                throw err; });
-            fs.chmod(porterTool, 555, (err) => { if (err)
-                throw err; });
-            core.addPath('.porter');
+            yield exec.exec("chmod", ["+x", downloadPath]);
+            const binPath = "/home/runner/bin";
+            yield io.mkdirP(binPath);
+            yield io.mv(downloadPath, path.join(binPath, "porter"));
+            core.addPath(binPath);
+            // fs.mkdir('.porter', { recursive: true }, (err) => { if(err) throw err; });
+            // let porterTool = '.porter/porter';
+            // fs.copyFile(downloadPath, porterTool, (err) => { if(err) throw err; });
+            // fs.chmod(porterTool, 555, (err) => { if(err) throw err; });
+            // core.addPath('.porter');
             core.info("Installed porter");
             core.info("Installing mixins");
             let mixins = mixinsStr.split(',');

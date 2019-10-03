@@ -1,6 +1,7 @@
 import * as core from '@actions/core';
 import * as tc from '@actions/tool-cache';
-import * as fs from 'fs';
+import * as exec from '@actions/exec';
+import * as io from '@actions/io';
 import * as path from 'path';
 
 export async function run() {
@@ -19,13 +20,22 @@ export async function run() {
 
     let downloadPath = await tc.downloadTool(fullPorterUrl);
     core.info(`Download path: ${downloadPath}`);
-    fs.mkdir('.porter', { recursive: true }, (err) => { if(err) throw err; });
-    let porterTool = '.porter/porter';
-    fs.copyFile(downloadPath, porterTool, (err) => { if(err) throw err; });
-    
-    fs.chmod(porterTool, 555, (err) => { if(err) throw err; });
 
-    core.addPath('.porter');
+    await exec.exec("chmod", ["+x", downloadPath]);
+
+    const binPath: string = "/home/runner/bin";
+    await io.mkdirP(binPath);
+    await io.mv(downloadPath, path.join(binPath, "porter"));
+
+    core.addPath(binPath);
+
+    // fs.mkdir('.porter', { recursive: true }, (err) => { if(err) throw err; });
+    // let porterTool = '.porter/porter';
+    // fs.copyFile(downloadPath, porterTool, (err) => { if(err) throw err; });
+    
+    // fs.chmod(porterTool, 555, (err) => { if(err) throw err; });
+
+    // core.addPath('.porter');
 
     core.info("Installed porter");
 
