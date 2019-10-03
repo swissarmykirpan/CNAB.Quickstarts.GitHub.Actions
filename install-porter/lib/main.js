@@ -37,8 +37,10 @@ function run() {
             yield exec.exec("chmod", ["+x", downloadPath]);
             const binPath = "/home/runner/bin/.porter";
             yield io.mkdirP(binPath);
-            yield io.mv(downloadPath, path.join(binPath, "porter"));
-            yield io.mv(downloadPath, path.join(binPath, "porter-runtime"));
+            const porterToolPath = path.join(binPath, "porter");
+            yield io.mv(downloadPath, porterToolPath);
+            const porterRuntimePath = path.join(binPath, "porter-runtime");
+            yield io.cp(porterToolPath, porterRuntimePath);
             core.addPath(binPath);
             core.info("Installed porter");
             core.info("Installing mixins");

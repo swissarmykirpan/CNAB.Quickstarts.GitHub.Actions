@@ -25,8 +25,10 @@ export async function run() {
 
     const binPath: string = "/home/runner/bin/.porter";
     await io.mkdirP(binPath);
-    await io.mv(downloadPath, path.join(binPath, "porter"));
-    await io.mv(downloadPath, path.join(binPath, "porter-runtime"));
+    const porterToolPath = path.join(binPath, "porter");
+    await io.mv(downloadPath, porterToolPath);
+    const porterRuntimePath = path.join(binPath, "porter-runtime");
+    await io.cp(porterToolPath, porterRuntimePath);
 
     core.addPath(binPath);
     core.info("Installed porter");
