@@ -1584,7 +1584,7 @@ function run() {
             let downloadPath = yield tc.downloadTool(fullPorterUrl);
             core.info(`Download path: ${downloadPath}`);
             yield exec.exec("chmod", ["+x", downloadPath]);
-            const binPath = "/home/runner/bin";
+            const binPath = "/home/runner/bin/.porter";
             yield io.mkdirP(binPath);
             yield io.mv(downloadPath, path.join(binPath, "porter"));
             core.addPath(binPath);
@@ -1606,7 +1606,7 @@ function run() {
                 }
             }));
             core.info("Installed mixins");
-            let cachedPath = yield tc.cacheDir('.porter', 'porter', porterVersion);
+            let cachedPath = yield tc.cacheDir(binPath, 'porter', porterVersion);
             core.info(`Cache path: ${cachedPath}`);
             core.addPath(cachedPath);
         }

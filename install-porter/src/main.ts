@@ -23,7 +23,7 @@ export async function run() {
 
     await exec.exec("chmod", ["+x", downloadPath]);
 
-    const binPath: string = "/home/runner/bin";
+    const binPath: string = "/home/runner/bin/.porter";
     await io.mkdirP(binPath);
     await io.mv(downloadPath, path.join(binPath, "porter"));
 
@@ -54,7 +54,7 @@ export async function run() {
 
     core.info("Installed mixins");
     
-    let cachedPath = await tc.cacheDir('.porter', 'porter', porterVersion);
+    let cachedPath = await tc.cacheDir(binPath, 'porter', porterVersion);
     core.info(`Cache path: ${cachedPath}`);
     core.addPath(cachedPath);
   } catch (error) {
