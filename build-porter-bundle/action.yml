@@ -1,40 +1,18 @@
-name: 'Install Porter'
-description: 'Installs Porter on the agent'
+name: 'Build Porter bundle'
+description: 'Builds the Porter bundle'
 inputs:
-  install_path:
-    description: 'Directory to install Porter, relative to $HOME'
-    required: false
-    default: '.porter'
-  porter_url:
-    description: 'URL for Porter installation file'
-    required: false
-    default: 'https://cdn.deislabs.io/porter'
-  porter_version:
-    description: 'Version of Porter to install'
-    required: false
-    default: 'latest'
-  feed_url:
-    description: 'Feed URL for mixins'
-    required: false
-    default: 'https://cdn.deislabs.io/porter/atom.xml'
-  mixins:
-    description: 'Comma separated list of mixins to install'
-    required: false
-    default: 'exec,kubernetes,helm,azure'
-  mixins_version:
-    description: 'Version of mixins to install'
-    required: false
-    default: 'latest'
+  bundle_dir:
+    description: 'Directory containing the bundle'
+    required: true
+  invocation_image:
+    description: 'Name of the invocation image'
+    required: true
 outputs:
-  porter-path: 
-    description: 'Path to the Porter tool executable'
+  invocation_image_tag: 
+    description: 'The tag from the invocation image'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.install_path }}
-    - ${{ inputs.porter_url }}
-    - ${{ inputs.porter_version }}
-    - ${{ inputs.feed_url }}
-    - ${{ inputs.mixins }}
-    - ${{ inputs.mixins_version }}
+    - ${{ inputs.bundle_dir }}
+    - ${{ inputs.invocation_image }}
