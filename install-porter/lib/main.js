@@ -37,7 +37,10 @@ function run() {
             let downloadPath = yield tc.downloadTool(fullPorterUrl);
             fs.mkdir(fullInstallPath, { recursive: true }, (err) => { if (err)
                 throw err; });
-            fs.copyFile(downloadPath, path.join(fullInstallPath, 'porter'), (err) => { if (err)
+            let porterTool = path.join(fullInstallPath, 'porter');
+            fs.copyFile(downloadPath, porterTool, (err) => { if (err)
+                throw err; });
+            fs.chmod(porterTool, 'x', (err) => { if (err)
                 throw err; });
             let cachedPath = yield tc.cacheDir(fullInstallPath, 'porter', porterVersion);
             core.addPath(cachedPath);
