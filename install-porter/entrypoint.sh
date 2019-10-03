@@ -7,7 +7,7 @@ feed_url=$4
 mixins=$5
 mixins_version=$6
 
-install_path="$HOME/$install_path"
+install_path="$GITHUB_WORKSPACE/$install_path"
 porter_url="${porter_url}/${porter_version}/porter-linux-amd64"
 
 echo "Installing porter from ${porter_url} to ${install_path}"
