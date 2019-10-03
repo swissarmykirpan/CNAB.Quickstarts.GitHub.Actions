@@ -519,7 +519,7 @@ function run() {
             let bundleDir = core.getInput("bundle_dir");
             let invocationImage = core.getInput("invocation_image");
             const execa = __webpack_require__(955);
-            const { stdout } = yield execa.execa(porterPath, ['build'], { cwd: bundleDir });
+            const { stdout } = yield execa(porterPath, ['build'], { cwd: bundleDir });
             core.info(stdout);
         }
         catch (error) {
