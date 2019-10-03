@@ -1587,12 +1587,8 @@ function run() {
             const binPath = "/home/runner/bin/.porter";
             yield io.mkdirP(binPath);
             yield io.mv(downloadPath, path.join(binPath, "porter"));
+            yield io.mv(downloadPath, path.join(binPath, "porter-runtime"));
             core.addPath(binPath);
-            // fs.mkdir('.porter', { recursive: true }, (err) => { if(err) throw err; });
-            // let porterTool = '.porter/porter';
-            // fs.copyFile(downloadPath, porterTool, (err) => { if(err) throw err; });
-            // fs.chmod(porterTool, 555, (err) => { if(err) throw err; });
-            // core.addPath('.porter');
             core.info("Installed porter");
             core.info("Installing mixins");
             let mixins = mixinsStr.split(',');

@@ -26,17 +26,9 @@ export async function run() {
     const binPath: string = "/home/runner/bin/.porter";
     await io.mkdirP(binPath);
     await io.mv(downloadPath, path.join(binPath, "porter"));
+    await io.mv(downloadPath, path.join(binPath, "porter-runtime"));
 
     core.addPath(binPath);
-
-    // fs.mkdir('.porter', { recursive: true }, (err) => { if(err) throw err; });
-    // let porterTool = '.porter/porter';
-    // fs.copyFile(downloadPath, porterTool, (err) => { if(err) throw err; });
-    
-    // fs.chmod(porterTool, 555, (err) => { if(err) throw err; });
-
-    // core.addPath('.porter');
-
     core.info("Installed porter");
 
     core.info("Installing mixins");
