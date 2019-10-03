@@ -14,9 +14,5 @@ outputs:
   invocation_image_tag: 
     description: 'The tag from the invocation image'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.porter_path }}
-    - ${{ inputs.bundle_dir }}
-    - ${{ inputs.invocation_image }}
+  using: 'node12'
+  main: 'dist/index.js'
