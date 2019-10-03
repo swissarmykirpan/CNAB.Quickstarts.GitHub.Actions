@@ -23,8 +23,7 @@ export async function run() {
     let porterTool = '.porter/porter';
     fs.copyFile(downloadPath, porterTool, (err) => { if(err) throw err; });
     
-    // fs.chmod('.porter', fs.constants.S_IXUSR, (err) => { if(err) throw err; });
-    // fs.chmod(porterTool, fs.constants.S_IXUSR, (err) => { if(err) throw err; });
+    fs.chmod(porterTool, 555, (err) => { if(err) throw err; });
 
     core.addPath('.porter');
 
