@@ -24,8 +24,7 @@ function run() {
             let porterPath = core.getInput("porter_path");
             let bundleDir = core.getInput("bundle_dir");
             let invocationImage = core.getInput("invocation_image");
-            yield exec.exec('cd', [bundleDir]);
-            yield exec.exec(porterPath, ['build']);
+            yield exec.exec(porterPath, ['build'], { cwd: bundleDir });
         }
         catch (error) {
             throw error;
