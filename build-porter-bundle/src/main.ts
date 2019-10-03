@@ -7,8 +7,7 @@ export async function run() {
     let bundleDir = core.getInput("bundle_dir");
     let invocationImage = core.getInput("invocation_image");
 
-    await exec.exec('cd', [bundleDir])
-    await exec.exec(porterPath, ['build']); 
+    await exec.exec(porterPath, ['build'], { cwd: bundleDir }); 
   } catch (error) {
     throw error;
   }
