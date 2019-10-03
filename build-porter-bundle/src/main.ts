@@ -1,4 +1,5 @@
 import * as core from '@actions/core';
+import * as exec from '@actions/exec';
 import * as path from 'path';
 
 export async function run() {
@@ -11,10 +12,7 @@ export async function run() {
     
     core.info(`Running 'porter build' in working directory '${wd}'`)
 
-    const execa = require('execa');
-    const {stdout, stderr} = await execa('porter', ['build'], { cwd: wd});
-    core.info(stdout);
-    core.error(stderr);
+    await exec.exec('porter', ['build'], { cwd: wd});
   } catch (error) {
     throw error;
   }

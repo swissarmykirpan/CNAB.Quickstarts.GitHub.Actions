@@ -17,6 +17,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
+const exec = __importStar(require("@actions/exec"));
 const path = __importStar(require("path"));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -26,10 +27,7 @@ function run() {
             let workspacePath = process.env.GITHUB_WORKSPACE;
             let wd = path.join(workspacePath, bundleDir);
             core.info(`Running 'porter build' in working directory '${wd}'`);
-            const execa = require('execa');
-            const { stdout, stderr } = yield execa('porter', ['build'], { cwd: wd });
-            core.info(stdout);
-            core.error(stderr);
+            yield exec.exec('porter', ['build'], { cwd: wd });
         }
         catch (error) {
             throw error;
