@@ -34,5 +34,5 @@ done
 
 echo "Installed mixins"
 
-echo ::add-path::${porter_path}
+echo ::add-path::${install_path}
 echo ::set-output name=porter_path::${porter_path}
