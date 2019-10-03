@@ -1568,30 +1568,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const tc = __importStar(__webpack_require__(533));
 const fs = __importStar(__webpack_require__(747));
-const path = __importStar(__webpack_require__(622));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const execa = __webpack_require__(955);
-            let installPath = core.getInput("install_path");
             let porterUrl = core.getInput("porter_url");
             let porterVersion = core.getInput("porter_version");
             let feedUrl = core.getInput("feed_url");
             let mixinsStr = core.getInput("mixins");
             let mixinsVersion = core.getInput("mixins_version");
-            let workspacePath = process.env.GITHUB_WORKSPACE;
-            let fullInstallPath = path.join(workspacePath, installPath);
             let fullPorterUrl = `${porterUrl}/${porterVersion}/porter-linux-amd64`;
-            core.info(`Installing porter from ${fullPorterUrl} to ${fullInstallPath}`);
+            core.info(`Installing porter from ${fullPorterUrl}`);
             let downloadPath = yield tc.downloadTool(fullPorterUrl);
-            fs.mkdir(fullInstallPath, { recursive: true }, (err) => { if (err)
+            core.info(`Download path: ${downloadPath}`);
+            fs.mkdir('.porter', { recursive: true }, (err) => { if (err)
                 throw err; });
-            let porterTool = path.join(fullInstallPath, 'porter');
+            let porterTool = '.porter/porter';
             fs.copyFile(downloadPath, porterTool, (err) => { if (err)
+                throw err; });
+            fs.chmod('.porter', fs.constants.S_IXUSR, (err) => { if (err)
                 throw err; });
             fs.chmod(porterTool, fs.constants.S_IXUSR, (err) => { if (err)
                 throw err; });
-            let cachedPath = yield tc.cacheDir(fullInstallPath, 'porter', porterVersion);
+            let cachedPath = yield tc.cacheDir('.porter', 'porter', porterVersion);
+            core.info(`Cache path: ${cachedPath}`);
             core.addPath(cachedPath);
             core.info("Installed porter");
             core.info("Installing mixins");
