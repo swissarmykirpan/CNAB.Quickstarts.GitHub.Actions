@@ -1,6 +1,9 @@
 name: 'Build Porter bundle'
 description: 'Builds the Porter bundle'
 inputs:
+  porter_path:
+    description: 'Path to the Porter tool'
+    required: true
   bundle_dir:
     description: 'Directory containing the bundle'
     required: true
@@ -14,5 +17,6 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - ${{ inputs.porter_path }}
     - ${{ inputs.bundle_dir }}
     - ${{ inputs.invocation_image }}
