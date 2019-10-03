@@ -25,16 +25,6 @@ inputs:
     description: 'Version of mixins to install'
     required: false
     default: 'latest'
-outputs:
-  porter-path: 
-    description: 'Path to the Porter tool executable'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.install_path }}
-    - ${{ inputs.porter_url }}
-    - ${{ inputs.porter_version }}
-    - ${{ inputs.feed_url }}
-    - ${{ inputs.mixins }}
-    - ${{ inputs.mixins_version }}
+  using: 'node12'
+  main: 'dist/index.js'
