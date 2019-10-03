@@ -40,7 +40,7 @@ function run() {
             let porterTool = path.join(fullInstallPath, 'porter');
             fs.copyFile(downloadPath, porterTool, (err) => { if (err)
                 throw err; });
-            fs.chmod(porterTool, 'x', (err) => { if (err)
+            fs.chmod(porterTool, fs.constants.S_IXUSR, (err) => { if (err)
                 throw err; });
             let cachedPath = yield tc.cacheDir(fullInstallPath, 'porter', porterVersion);
             core.addPath(cachedPath);

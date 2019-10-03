@@ -24,7 +24,7 @@ export async function run() {
     fs.mkdir(fullInstallPath, { recursive: true }, (err) => { if(err) throw err; });
     let porterTool = path.join(fullInstallPath, 'porter');
     fs.copyFile(downloadPath, porterTool, (err) => { if(err) throw err; });
-    fs.chmod(porterTool, 'x', (err) => { if(err) throw err; });
+    fs.chmod(porterTool, fs.constants.S_IXUSR, (err) => { if(err) throw err; });
 
     let cachedPath = await tc.cacheDir(fullInstallPath, 'porter', porterVersion);
     core.addPath(cachedPath);
