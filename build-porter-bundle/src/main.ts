@@ -7,8 +7,9 @@ export async function run() {
     let invocationImage = core.getInput("invocation_image");
 
     const execa = require('execa');
-    const {stdout} = await execa(porterPath, ['build'], { cwd: bundleDir });
-	  core.info(stdout);
+    const {stdout, stderr} = await execa(porterPath, ['build'], { cwd: bundleDir });
+    core.info(stdout);
+    core.error(stderr);
   } catch (error) {
     throw error;
   }
