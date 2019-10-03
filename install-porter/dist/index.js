@@ -1583,7 +1583,7 @@ function run() {
             let fullInstallPath = path.join(workspacePath, installPath);
             let fullPorterUrl = `${porterUrl}/${porterVersion}/porter-linux-amd64`;
             core.info(`Installing porter from ${fullPorterUrl} to ${fullInstallPath}`);
-            let downloadPath = yield tc.downloadTool(porterUrl);
+            let downloadPath = yield tc.downloadTool(fullPorterUrl);
             fs.mkdir(fullInstallPath, { recursive: true }, (err) => { if (err)
                 throw err; });
             fs.copyFile(downloadPath, path.join(fullInstallPath, 'porter'), (err) => { if (err)

@@ -20,7 +20,7 @@ export async function run() {
 
     core.info(`Installing porter from ${fullPorterUrl} to ${fullInstallPath}`);
 
-    let downloadPath = await tc.downloadTool(porterUrl);
+    let downloadPath = await tc.downloadTool(fullPorterUrl);
     fs.mkdir(fullInstallPath, { recursive: true }, (err) => { if(err) throw err; });
     fs.copyFile(downloadPath, path.join(fullInstallPath, 'porter'), (err) => { if(err) throw err; });
 
