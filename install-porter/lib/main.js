@@ -39,9 +39,7 @@ function run() {
                 throw err; });
             // fs.chmod('.porter', fs.constants.S_IXUSR, (err) => { if(err) throw err; });
             // fs.chmod(porterTool, fs.constants.S_IXUSR, (err) => { if(err) throw err; });
-            let cachedPath = yield tc.cacheDir('.porter', 'porter', porterVersion);
-            core.info(`Cache path: ${cachedPath}`);
-            core.addPath(cachedPath);
+            core.addPath('.porter');
             core.info("Installed porter");
             core.info("Installing mixins");
             let mixins = mixinsStr.split(',');
@@ -49,10 +47,15 @@ function run() {
                 const { stdout, stderr } = yield execa('porter', ['mixin', 'install', mixin, '--version', mixinsVersion, '--feed-url', feedUrl]);
                 if (stdout)
                     core.info(stdout);
-                if (stderr)
+                if (stderr) {
                     core.error(stderr);
+                    throw new Error(stderr);
+                }
             }));
             core.info("Installed mixins");
+            let cachedPath = yield tc.cacheDir('.porter', 'porter', porterVersion);
+            core.info(`Cache path: ${cachedPath}`);
+            core.addPath(cachedPath);
         }
         catch (error) {
             throw error;
