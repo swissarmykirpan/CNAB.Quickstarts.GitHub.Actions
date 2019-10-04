@@ -9,7 +9,6 @@ export async function run() {
 
     let workspacePath = <string>process.env.GITHUB_WORKSPACE;
     let wd = path.join(workspacePath, bundleDir);
-    core.exportVariable("BUNDLE_DIR", wd);
 
     core.info(`Running 'porter build' in working directory '${wd}'`)
 

@@ -26,7 +26,6 @@ function run() {
             let invocationImage = core.getInput("invocation_image");
             let workspacePath = process.env.GITHUB_WORKSPACE;
             let wd = path.join(workspacePath, bundleDir);
-            core.exportVariable("BUNDLE_DIR", wd);
             core.info(`Running 'porter build' in working directory '${wd}'`);
             yield exec.exec('porter', ['build'], { cwd: wd });
         }
