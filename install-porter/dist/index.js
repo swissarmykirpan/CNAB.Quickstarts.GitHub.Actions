@@ -1591,6 +1591,7 @@ function run() {
             const porterRuntimePath = path.join(binPath, "porter-runtime");
             yield io.cp(porterToolPath, porterRuntimePath);
             core.addPath(binPath);
+            core.exportVariable('PORTER_HOME', binPath);
             core.info("Installed porter");
             core.info("Installing mixins");
             let mixins = mixinsStr.split(',');
@@ -1604,9 +1605,6 @@ function run() {
                 }
             }));
             core.info("Installed mixins");
-            let cachedPath = yield tc.cacheDir(binPath, 'porter', porterVersion);
-            core.info(`Cache path: ${cachedPath}`);
-            core.addPath(cachedPath);
         }
         catch (error) {
             throw error;

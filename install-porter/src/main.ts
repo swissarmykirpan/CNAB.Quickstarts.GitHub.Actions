@@ -22,7 +22,7 @@ export async function run() {
     core.info(`Download path: ${downloadPath}`);
 
     await exec.exec("chmod", ["+x", downloadPath]);
-
+   
     const binPath: string = "/home/runner/bin/.porter";
     await io.mkdirP(binPath);
     const porterToolPath = path.join(binPath, "porter");
@@ -31,6 +31,7 @@ export async function run() {
     await io.cp(porterToolPath, porterRuntimePath);
 
     core.addPath(binPath);
+    core.exportVariable('PORTER_HOME', binPath);
     core.info("Installed porter");
 
     core.info("Installing mixins");
@@ -46,11 +47,8 @@ export async function run() {
       }
     });
 
-    core.info("Installed mixins");
+    core.info("Installed mixins");    
     
-    let cachedPath = await tc.cacheDir(binPath, 'porter', porterVersion);
-    core.info(`Cache path: ${cachedPath}`);
-    core.addPath(cachedPath);
   } catch (error) {
     throw error;
   }
