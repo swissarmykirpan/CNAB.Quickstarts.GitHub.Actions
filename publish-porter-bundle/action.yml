@@ -1,5 +1,5 @@
-name: 'Build Porter bundle'
-description: 'Builds the Porter bundle'
+name: 'Publish Porter bundle'
+description: 'Publishes the Porter bundle'
 inputs:
   bundle_dir:
     description: 'Directory containing the bundle'

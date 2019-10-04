@@ -9,9 +9,9 @@ export async function run() {
     let workspacePath = <string>process.env.GITHUB_WORKSPACE;
     let wd = path.join(workspacePath, bundleDir);
 
-    core.info(`Running 'porter build' in working directory '${wd}'`)
+    core.info(`Running 'porter publish' in working directory '${wd}'`)
 
-    await exec.exec('porter', ['build'], { cwd: wd});
+    await exec.exec('porter', ['publish'], { cwd: wd});
   } catch (error) {
     throw error;
   }
