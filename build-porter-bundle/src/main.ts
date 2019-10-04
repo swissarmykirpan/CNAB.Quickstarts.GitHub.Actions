@@ -7,6 +7,8 @@ export async function run() {
     let bundleDir = core.getInput("bundle_dir");
     let invocationImage = core.getInput("invocation_image");
 
+    core.exportVariable("BUNDLE_DIR", bundleDir);
+
     let workspacePath = <string>process.env.GITHUB_WORKSPACE;
     let wd = path.join(workspacePath, bundleDir);
     
