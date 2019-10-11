@@ -1,0 +1,18 @@
+name: 'Replace version and registry'
+description: 'For a Porter manifest file, replaces the version property, and the registry/tag portions of the invocationImage and tag properties'
+inputs:
+  manifest_path:
+    description: 'Path to the Porter manifest file'
+    required: true
+  version:
+    description: 'The version to replace with'
+    required: true
+  tag:
+    description: 'The tag to replace with'
+    required: true
+  registry:
+    description: 'The registry to replace with'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
