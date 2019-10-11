@@ -1,10 +1,10 @@
 #!/bin/sh
 
-metadata_path=$1
+manifest_path=$1
 
-full_path="$GITHUB_WORKSPACE/$metadata_path"
+full_path="$GITHUB_WORKSPACE/$manifest_path"
 
-echo "Full metadata path: $full_path"
+echo "Full manifest path: $full_path"
 
 echo "Installing yq"
 python -m pip install --upgrade pip yq

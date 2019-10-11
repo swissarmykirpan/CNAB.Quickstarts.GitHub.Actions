@@ -1,8 +1,8 @@
-name: 'Parse bundle metadata'
-description: 'Extracts key value pairs from Porter YAML metadata file'
+name: 'Parse bundle manifest'
+description: 'Extracts key value pairs from Porter YAML manifest file'
 inputs:
-  metadata_path:
-    description: 'Path to the Porter YAML metadata file'
+  manifest_path:
+    description: 'Path to the Porter YAML manifest file'
     required: true
 outputs:
   name: 
@@ -15,4 +15,4 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.metadata_path }}
+    - ${{ inputs.manifest_path }}
