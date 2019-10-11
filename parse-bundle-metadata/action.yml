@@ -7,6 +7,8 @@ inputs:
 outputs:
   name: 
     description: 'The name of the bundle'
+  version: 
+    description: 'The version of the bundle'
   invocation_image:
     description: 'The name of the container image to tag the invocation image with when it is built'
 runs:
