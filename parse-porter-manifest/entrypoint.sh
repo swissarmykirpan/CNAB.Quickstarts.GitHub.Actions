@@ -13,8 +13,8 @@ echo "Installed yq"
 name=$(yq .name ${full_path} -r)
 echo "name: ${name}"
 
-name=$(yq .version ${full_path} -r)
-echo "version: ${name}"
+version=$(yq .version ${full_path} -r)
+echo "version: ${version}"
 
 invocation_image=$(yq .invocationImage ${full_path} -r)
 echo "invocation_image: ${invocation_image}"
