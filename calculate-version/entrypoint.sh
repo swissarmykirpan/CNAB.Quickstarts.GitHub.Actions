@@ -17,6 +17,10 @@ echo $contents > $gitversion_config_path
 
 cd $quickstart_dir
 
+echo "Running: dotnet /app/GitVersion.dll"
+gv=$(dotnet /app/GitVersion.dll)
+echo $gv
+
 dotnet /app/GitVersion.dll -nocache -output buildserver -exec /bin/bash -execargs "-c \"echo $GitVersion_FullSemVer > /github/workspace/version.txt\""
 
 GitVersion_FullSemVer=$(cat $GITHUB_WORKSPACE/version.txt)
