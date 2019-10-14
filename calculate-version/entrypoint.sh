@@ -9,7 +9,7 @@ quickstart_dir=$(dirname $full_manifest_path)
 version=$(yq .version ${full_manifest_path} -r)
 echo "version: ${version}"
 
-gitversion_config_path=$quickstart_dir/gitversion.yml
+gitversion_config_path=$quickstart_dir/GitVersion.yml
 contents="next-version: $version"
 
 echo "Writing temporary Gitversion config file with contents '$contents' to path '${gitversion_config_path}'"
