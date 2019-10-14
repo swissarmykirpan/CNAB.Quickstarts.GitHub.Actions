@@ -21,8 +21,6 @@ echo "Running: dotnet /app/GitVersion.dll"
 gv=$(dotnet /app/GitVersion.dll)
 echo $gv
 
-dotnet /app/GitVersion.dll -nocache -output buildserver -exec /bin/bash -execargs "-c \"echo $GitVersion_FullSemVer > /github/workspace/version.txt\""
+FullSemVer=$($gv | jq -r '.FullSemVer')
 
-GitVersion_FullSemVer=$(cat $GITHUB_WORKSPACE/version.txt)
-
-echo ::set-output name=fullsemver::$GitVersion_FullSemVer
+echo ::set-output name=fullsemver::$FullSemVer
