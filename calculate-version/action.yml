@@ -1,0 +1,14 @@
+name: 'Calculate version'
+description: 'Calculates full semantic version using GitVersion tool and base version from Porter manifest file'
+inputs:
+  mainifest_path:
+    description: 'Path to the Porter manifest file'
+    required: true
+outputs:
+  full_sem_ver: 
+    description: 'The full semantic version number'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.mainifest_path }}
