@@ -23,4 +23,4 @@ echo $gv
 
 FullSemVer=$(echo $gv | jq -r '.FullSemVer')
 
-echo ::set-output name=fullsemver::$FullSemVer
+echo ::set-output name=full_sem_ver::$FullSemVer
