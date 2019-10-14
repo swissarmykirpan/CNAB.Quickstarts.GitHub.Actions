@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 manifest_path=$1
 
