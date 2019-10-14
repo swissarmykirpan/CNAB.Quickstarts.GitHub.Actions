@@ -28,8 +28,8 @@ function run() {
             let registry = core.getInput("registry");
             let manifestContents = yield fs_1.promises.readFile(manifestPath, 'utf8');
             manifestContents = functions_1.updateManifest(manifestContents, version, tag, registry);
-            core.info("Update manifest:\n");
-            core.info(manifestContents + "\n");
+            core.info("Updated manifest:\n");
+            core.info(manifestContents);
             yield fs_1.promises.writeFile(manifestPath, manifestContents);
         }
         catch (error) {

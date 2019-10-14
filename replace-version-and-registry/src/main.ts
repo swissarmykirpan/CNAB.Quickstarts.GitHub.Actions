@@ -14,8 +14,8 @@ export async function run() {
 
     manifestContents = updateManifest(manifestContents, version, tag, registry);
 
-    core.info("Update manifest:\n");
-    core.info(manifestContents + "\n");
+    core.info("Updated manifest:\n");
+    core.info(manifestContents);
 
     await fs.writeFile(manifestPath, manifestContents);
 
