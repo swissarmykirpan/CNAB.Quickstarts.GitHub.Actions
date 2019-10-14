@@ -4,7 +4,7 @@ set -e
 manifest_path=$1
 
 full_manifest_path="$GITHUB_WORKSPACE/$manifest_path"
-quickstart_dir=$(realpath $full_manifest_path/..)
+quickstart_dir=$(dirname $full_manifest_path)
 
 version=$(yq .version ${full_manifest_path} -r)
 echo "version: ${version}"
