@@ -5,10 +5,6 @@ manifest_path=$1
 full_manifest_path="$GITHUB_WORKSPACE/$manifest_path"
 quickstart_dir=$(realpath $full_manifest_path/..)
 
-echo "Installing yq"
-python -m pip install --upgrade pip yq
-echo "Installed yq"
-
 version=$(yq .version ${full_manifest_path} -r)
 echo "version: ${version}"
 
