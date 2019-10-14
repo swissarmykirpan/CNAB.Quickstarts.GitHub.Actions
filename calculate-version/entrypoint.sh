@@ -13,7 +13,7 @@ gitversion_config_path=$quickstart_dir/gitversion.yml
 contents="next-version: $version"
 
 echo "Writing temporary Gitversion config file with contents '$contents' to path '${gitversion_config_path}'"
-echo $contents > $gitversion
+echo $contents > $gitversion_config_path
 
 cd $quickstart_dir
 
