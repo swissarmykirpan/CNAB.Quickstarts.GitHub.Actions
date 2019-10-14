@@ -9,6 +9,8 @@ outputs:
     description: 'The full semantic version number'
   major_minor_patch: 
     description: 'The major.minor.patch version number'
+  nuget_version_v2: 
+    description: 'The NuGet v2 version number'
 runs:
   using: 'docker'
   image: 'Dockerfile'

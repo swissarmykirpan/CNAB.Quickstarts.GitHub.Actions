@@ -23,6 +23,8 @@ echo $gv
 
 FullSemVer=$(echo $gv | jq -r '.FullSemVer')
 MajorMinorPatch=$(echo $gv | jq -r '.MajorMinorPatch')
+NuGetVersionV2=$(echo $gv | jq -r '.NuGetVersionV2')
 
 echo ::set-output name=full_sem_ver::$FullSemVer
 echo ::set-output name=major_minor_patch::$MajorMinorPatch
+echo ::set-output name=nuget_version_v2::$NuGetVersionV2
