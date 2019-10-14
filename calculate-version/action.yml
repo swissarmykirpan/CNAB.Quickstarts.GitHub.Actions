@@ -7,6 +7,8 @@ inputs:
 outputs:
   full_sem_ver: 
     description: 'The full semantic version number'
+  major_minor_patch: 
+    description: 'The major.minor.patch version number'
 runs:
   using: 'docker'
   image: 'Dockerfile'

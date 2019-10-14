@@ -22,5 +22,7 @@ gv=$(dotnet /app/GitVersion.dll)
 echo $gv
 
 FullSemVer=$(echo $gv | jq -r '.FullSemVer')
+MajorMinorPatch=$(echo $gv | jq -r '.MajorMinorPatch')
 
 echo ::set-output name=full_sem_ver::$FullSemVer
+echo ::set-output name=major_minor_patch::$MajorMinorPatch
