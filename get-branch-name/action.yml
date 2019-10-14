@@ -1,0 +1,8 @@
+name: 'Get branch name'
+description: 'Gets the current git branch name'
+outputs:
+  branch_name: 
+    description: 'The current git branch name'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
