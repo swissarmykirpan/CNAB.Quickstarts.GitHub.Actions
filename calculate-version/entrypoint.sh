@@ -21,6 +21,6 @@ echo "Running: dotnet /app/GitVersion.dll"
 gv=$(dotnet /app/GitVersion.dll)
 echo $gv
 
-FullSemVer=$($gv | jq -r '.FullSemVer')
+FullSemVer=$(echo $gv | jq -r '.FullSemVer')
 
 echo ::set-output name=fullsemver::$FullSemVer
