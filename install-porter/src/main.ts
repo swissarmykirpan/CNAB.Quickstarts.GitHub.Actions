@@ -33,18 +33,15 @@ export async function run() {
     core.addPath(binPath);
     core.exportVariable('PORTER_HOME', binPath);
     core.info("Installed porter");
+    core.info("Porter version: ");
+    await exec.exec('porter', ['version']);
 
     core.info("Installing mixins");
 
     let mixins = mixinsStr.split(',');
 
     mixins.forEach(async mixin => {
-      const {stdout, stderr} = await execa('porter', ['mixin', 'install', mixin, '--version', mixinsVersion, '--feed-url', feedUrl]);
-      if (stdout) core.info(stdout);
-      if (stderr) {
-        core.error(stderr);
-        throw new Error(stderr);
-      }
+      await exec.exec('porter', ['mixin', 'install', mixin, '--version', mixinsVersion, '--feed-url', feedUrl]);
     });
 
     core.info("Installed mixins");    
