@@ -1593,16 +1593,12 @@ function run() {
             core.addPath(binPath);
             core.exportVariable('PORTER_HOME', binPath);
             core.info("Installed porter");
+            core.info("Porter version: ");
+            yield exec.exec('porter', ['version']);
             core.info("Installing mixins");
             let mixins = mixinsStr.split(',');
             mixins.forEach((mixin) => __awaiter(this, void 0, void 0, function* () {
-                const { stdout, stderr } = yield execa('porter', ['mixin', 'install', mixin, '--version', mixinsVersion, '--feed-url', feedUrl]);
-                if (stdout)
-                    core.info(stdout);
-                if (stderr) {
-                    core.error(stderr);
-                    throw new Error(stderr);
-                }
+                yield exec.exec('porter', ['mixin', 'install', mixin, '--version', mixinsVersion, '--feed-url', feedUrl]);
             }));
             core.info("Installed mixins");
         }
