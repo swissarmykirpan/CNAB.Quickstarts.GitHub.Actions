@@ -1,0 +1,39 @@
+{
+  "name": "calculate-version",
+  "version": "1.0.0",
+  "description": "Calculates full semantic version using GitVersion tool and base version from Porter manifest file",
+  "main": "lib/main.js",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "package": "tsc && ncc build lib/main.js"
+  },
+  "author": "endjin",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.0.0",
+    "@actions/exec": "^1.0.1",
+    "@actions/io": "^1.0.1",
+    "execa": "^2.0.4",
+    "js-yaml": "^3.13.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.0.4",
+    "@zeit/ncc": "^0.20.5",
+    "husky": "^3.0.7",
+    "jest": "^24.8.0",
+    "jest-circus": "^24.7.1",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run package && git add lib/* && git add dist/*"
+    }
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
