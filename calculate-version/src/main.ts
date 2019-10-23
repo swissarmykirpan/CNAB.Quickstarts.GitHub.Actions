@@ -23,7 +23,7 @@ export async function run() {
     let gitversionConfigPath = path.join(wd, 'GitVersion.yml');
     let contents = `next-version: ${manifestVersion}`;
     core.info(`Writing temporary Gitversion config file with contents '${contents}' to path '${gitversionConfigPath}'`)
-    fs.writeFile(gitversionConfigPath, contents);
+    await fs.writeFile(gitversionConfigPath, contents);
 
     core.info(`Running GitVersion in working directory '${wd}'`)
 

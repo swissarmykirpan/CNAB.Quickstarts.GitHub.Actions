@@ -1,0 +1,16 @@
+name: 'Git commit updates'
+description: 'Automatically commits to the current repo files that have been added or changed.'
+inputs:
+  commit_message:
+    description: Commit message
+    required: true
+  add_path_spec:
+    description: The pathspec for the 'git add' command
+    required: false
+    default: '.'
+  branch:
+    description: Branch where changes should be pushed too
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
