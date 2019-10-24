@@ -30,7 +30,11 @@ export async function run() {
     let changes = false;
 
     files.forEach(async file => {
+      core.info("Running git status for: " + file);
+
       let status = await git.status({ dir: '/', filepath: file });
+
+      core.info(`Git status for '${file}' is '${status}'`);
 
       changes = 
         status == "*deleted" ||

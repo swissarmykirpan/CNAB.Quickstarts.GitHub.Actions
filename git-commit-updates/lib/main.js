@@ -39,7 +39,9 @@ function run() {
             let files = addPathSpec.split(" ");
             let changes = false;
             files.forEach((file) => __awaiter(this, void 0, void 0, function* () {
+                core.info("Running git status for: " + file);
                 let status = yield git.status({ dir: '/', filepath: file });
+                core.info(`Git status for '${file}' is '${status}'`);
                 changes =
                     status == "*deleted" ||
                         status == "*modified" ||
