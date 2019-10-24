@@ -40,9 +40,10 @@ export async function run() {
 
     let mixins = mixinsStr.split(',');
 
-    mixins.forEach(async mixin => {
+    for (let i = 0; i < mixins.length; i++) {
+      const mixin = mixins[i];
       await exec.exec('porter', ['mixin', 'install', mixin, '--version', mixinsVersion, '--feed-url', feedUrl]);
-    });
+    }
 
     core.info("Installed mixins");    
     

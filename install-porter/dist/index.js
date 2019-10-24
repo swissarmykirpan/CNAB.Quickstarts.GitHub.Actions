@@ -1597,9 +1597,10 @@ function run() {
             yield exec.exec('porter', ['version']);
             core.info("Installing mixins");
             let mixins = mixinsStr.split(',');
-            mixins.forEach((mixin) => __awaiter(this, void 0, void 0, function* () {
+            for (let i = 0; i < mixins.length; i++) {
+                const mixin = mixins[i];
                 yield exec.exec('porter', ['mixin', 'install', mixin, '--version', mixinsVersion, '--feed-url', feedUrl]);
-            }));
+            }
             core.info("Installed mixins");
         }
         catch (error) {
