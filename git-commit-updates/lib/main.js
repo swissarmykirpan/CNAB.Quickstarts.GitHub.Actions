@@ -18,12 +18,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const exec = __importStar(require("@actions/exec"));
-const fs = __importStar(require("fs"));
-const git = __importStar(require("isomorphic-git"));
+const path = __importStar(require("path"));
+const fs_1 = require("fs");
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            git.plugins.set('fs', fs);
             let branch = core.getInput("branch");
             let addPathSpec = core.getInput("add_path_spec");
             let commitMessage = core.getInput("commit_message");
@@ -33,41 +32,38 @@ function run() {
             core.info("Input: commit_message = " + commitMessage);
             let githubActor = process.env.GITHUB_ACTOR;
             let githubToken = process.env.GITHUB_TOKEN;
+            let home = process.env.HOME;
+            core.info("Updating .netrc file");
+            let netrcContents = `machine github.com
+login ${githubActor}
+password ${githubToken}
+machine api.github.com
+login ${githubActor}
+password ${githubToken}`;
+            yield fs_1.promises.writeFile(path.join(home, '.netrc'), netrcContents);
             core.info("Setting git config email and user name");
             yield exec.exec("git", ["config", "--global", "user.email", "actions@github.com"]);
             yield exec.exec("git", ["config", "--global", "user.name", "GitHub Actions"]);
             core.info("Checking if any relevant changes to commit.");
+            let statusOutput = '';
+            let options = {};
+            options.listeners = {
+                stdout: (data) => {
+                    statusOutput += data.toString();
+                }
+            };
             let files = addPathSpec.split(" ");
-            let changes = false;
-            files.forEach((file) => __awaiter(this, void 0, void 0, function* () {
-                core.info("Running git status for: " + file);
-                let status = yield git.status({ dir: wd, filepath: file });
-                core.info(`Git status for '${file}' is '${status}'`);
-                changes =
-                    status == "*deleted" ||
-                        status == "*modified" ||
-                        status == "*added";
-            }));
+            yield exec.exec('git', ['status'].concat(files), options);
+            let changes = statusOutput != '';
             if (changes) {
+                core.info(`Git status output:\n${statusOutput}\n`);
                 core.info("Changes found. Committing changes...");
                 branch = branch.replace("refs/heads/", "");
                 core.info("Branch is: " + branch);
-                yield git.checkout({ dir: wd, ref: branch });
-                yield git.add({ dir: wd, filepath: addPathSpec });
-                yield git.commit({
-                    dir: wd,
-                    author: {
-                        name: githubActor,
-                        email: `${githubActor}@users.noreply.github.com`
-                    },
-                    message: commitMessage
-                });
-                yield git.push({
-                    dir: wd,
-                    remote: 'origin',
-                    ref: branch,
-                    token: githubToken
-                });
+                yield exec.exec('git', ['checkout', branch]);
+                yield exec.exec('git', ['add'].concat(files));
+                yield exec.exec('git', ['commit', '-m', commitMessage, `--author="${githubActor} <${githubActor}@users.noreply.github.com>`]);
+                yield exec.exec('git', ['push', '--set-upstream', 'origin', `HEAD:${branch}`]);
                 core.info("Changes committed and pushed to origin.");
             }
             else {
