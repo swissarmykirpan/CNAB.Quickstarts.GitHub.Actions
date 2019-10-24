@@ -1,0 +1,12 @@
+name: 'Detect Porter mixins'
+description: 'For a Porter manifest file, finds the mixins used, and outputs as comma-separated string'
+inputs:
+  manifest_path:
+    description: 'Path to the Porter manifest file'
+    required: true
+outputs:
+  mixins:
+    description: 'Comma-separated list of mixins.'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
