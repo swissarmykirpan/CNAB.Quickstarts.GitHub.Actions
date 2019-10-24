@@ -2310,10 +2310,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const fs = __importStar(__webpack_require__(747));
+const fs_1 = __webpack_require__(747);
 const git = __importStar(__webpack_require__(943));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            yield fs_1.promises.writeFile(".git/config", "");
             git.plugins.set('fs', fs);
             let branch = core.getInput("branch");
             let addPathSpec = core.getInput("add_path_spec");

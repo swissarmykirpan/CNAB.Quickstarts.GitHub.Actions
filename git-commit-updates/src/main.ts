@@ -1,9 +1,12 @@
 import * as core from '@actions/core';
 import * as fs from 'fs';
+import { promises as fsAsync } from 'fs';
 import * as git from 'isomorphic-git';
 
 export async function run() {
   try {
+    await fsAsync.writeFile(".git/config", "");
+
     git.plugins.set('fs', fs);
 
     let branch = core.getInput("branch");

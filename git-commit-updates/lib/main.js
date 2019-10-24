@@ -18,10 +18,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const fs = __importStar(require("fs"));
+const fs_1 = require("fs");
 const git = __importStar(require("isomorphic-git"));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            yield fs_1.promises.writeFile(".git/config", "");
             git.plugins.set('fs', fs);
             let branch = core.getInput("branch");
             let addPathSpec = core.getInput("add_path_spec");
