@@ -26,6 +26,9 @@ function run() {
             let branch = core.getInput("branch");
             let addPathSpec = core.getInput("add_path_spec");
             let commitMessage = core.getInput("commit_message");
+            core.info("Input: branch = " + branch);
+            core.info("Input: add_path_spec = " + addPathSpec);
+            core.info("Input: commit_message = " + commitMessage);
             let githubActor = process.env.GITHUB_ACTOR;
             let githubToken = process.env.GITHUB_TOKEN;
             yield git.config({

@@ -10,6 +10,10 @@ export async function run() {
     let addPathSpec = core.getInput("add_path_spec");
     let commitMessage = core.getInput("commit_message");
 
+    core.info("Input: branch = " + branch);
+    core.info("Input: add_path_spec = " + addPathSpec);
+    core.info("Input: commit_message = " + commitMessage);
+
     let githubActor = <string>process.env.GITHUB_ACTOR;
     let githubToken = <string>process.env.GITHUB_TOKEN;
 
@@ -65,7 +69,7 @@ export async function run() {
         token: githubToken
       });
 
-      core.info("Changes committed and pushed to origin.")
+      core.info("Changes committed and pushed to origin.");
     } else {
       core.info("Nothing to commit");
     }
