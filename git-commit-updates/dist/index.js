@@ -697,7 +697,7 @@ password ${githubToken}`;
                 }
             };
             let files = addPathSpec.split(" ");
-            yield exec.exec('git', ['status'].concat(files), options);
+            yield exec.exec('git', ['status'].concat(files).concat('--porcelain'), options);
             let changes = statusOutput != '';
             if (changes) {
                 core.info(`Git status output:\n${statusOutput}\n`);

@@ -48,7 +48,7 @@ password ${githubToken}`;
       }
     };
     let files = addPathSpec.split(" ");
-    await exec.exec('git', ['status'].concat(files), options);
+    await exec.exec('git', ['status'].concat(files).concat('--porcelain'), options);
 
     let changes = statusOutput != '';
 
