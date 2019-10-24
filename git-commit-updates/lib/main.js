@@ -31,6 +31,7 @@ function run() {
             core.info("Input: commit_message = " + commitMessage);
             let githubActor = process.env.GITHUB_ACTOR;
             let githubToken = process.env.GITHUB_TOKEN;
+            core.info("Setting git config email and user name");
             yield git.config({
                 dir: '/',
                 path: 'user.email',
@@ -41,6 +42,7 @@ function run() {
                 path: 'user.name',
                 value: 'GitHub Actions'
             });
+            core.info("Checking if any relevant changes to commit.");
             let files = addPathSpec.split(" ");
             let changes = false;
             files.forEach((file) => __awaiter(this, void 0, void 0, function* () {
@@ -51,7 +53,7 @@ function run() {
                         status == "*added";
             }));
             if (changes) {
-                core.info("Committing changes...");
+                core.info("Changes found. Committing changes...");
                 branch = branch.replace("refs/heads/", "");
                 core.info("Branch is: " + branch);
                 yield git.checkout({ dir: '/', ref: branch });
@@ -73,7 +75,7 @@ function run() {
                 core.info("Changes committed and pushed to origin.");
             }
             else {
-                core.info("Nothing to commit");
+                core.info("No relevant changes found. Nothing to commit");
             }
         }
         catch (error) {

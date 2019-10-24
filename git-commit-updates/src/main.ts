@@ -17,6 +17,8 @@ export async function run() {
     let githubActor = <string>process.env.GITHUB_ACTOR;
     let githubToken = <string>process.env.GITHUB_TOKEN;
 
+    core.info("Setting git config email and user name");
+
     await git.config({
       dir: '/',
       path: 'user.email',
@@ -28,6 +30,8 @@ export async function run() {
       path: 'user.name',
       value: 'GitHub Actions'
     });
+
+    core.info("Checking if any relevant changes to commit.");
 
     let files = addPathSpec.split(" ");
 
@@ -43,7 +47,7 @@ export async function run() {
     });
 
     if (changes) {
-      core.info("Committing changes...");
+      core.info("Changes found. Committing changes...");
 
       branch = branch.replace("refs/heads/", "");
 
@@ -71,7 +75,7 @@ export async function run() {
 
       core.info("Changes committed and pushed to origin.");
     } else {
-      core.info("Nothing to commit");
+      core.info("No relevant changes found. Nothing to commit");
     }
 
   } catch (error) {
