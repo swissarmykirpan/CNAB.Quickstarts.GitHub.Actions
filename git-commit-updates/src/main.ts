@@ -1,12 +1,10 @@
 import * as core from '@actions/core';
+import * as exec from '@actions/exec';
 import * as fs from 'fs';
-import { promises as fsAsync } from 'fs';
 import * as git from 'isomorphic-git';
 
 export async function run() {
   try {
-    await fsAsync.writeFile(".git/config", "");
-
     git.plugins.set('fs', fs);
 
     let branch = core.getInput("branch");
@@ -22,17 +20,8 @@ export async function run() {
 
     core.info("Setting git config email and user name");
 
-    await git.config({
-      dir: '/',
-      path: 'user.email',
-      value: 'actions@github.com'
-    });
-
-    await git.config({
-      dir: '/',
-      path: 'user.name',
-      value: 'GitHub Actions'
-    });
+    await exec.exec("git", ["config", "--global", "user.email", "actions@github.com"]);
+    await exec.exec("git", ["config", "--global", "user.name", "GitHub Actions"]);
 
     core.info("Checking if any relevant changes to commit.");
 

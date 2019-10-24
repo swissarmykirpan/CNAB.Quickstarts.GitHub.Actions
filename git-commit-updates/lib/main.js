@@ -17,13 +17,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
+const exec = __importStar(require("@actions/exec"));
 const fs = __importStar(require("fs"));
-const fs_1 = require("fs");
 const git = __importStar(require("isomorphic-git"));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield fs_1.promises.writeFile(".git/config", "");
             git.plugins.set('fs', fs);
             let branch = core.getInput("branch");
             let addPathSpec = core.getInput("add_path_spec");
@@ -34,16 +33,8 @@ function run() {
             let githubActor = process.env.GITHUB_ACTOR;
             let githubToken = process.env.GITHUB_TOKEN;
             core.info("Setting git config email and user name");
-            yield git.config({
-                dir: '/',
-                path: 'user.email',
-                value: 'actions@github.com'
-            });
-            yield git.config({
-                dir: '/',
-                path: 'user.name',
-                value: 'GitHub Actions'
-            });
+            yield exec.exec("git", ["config", "--global", "user.email", "actions@github.com"]);
+            yield exec.exec("git", ["config", "--global", "user.name", "GitHub Actions"]);
             core.info("Checking if any relevant changes to commit.");
             let files = addPathSpec.split(" ");
             let changes = false;
