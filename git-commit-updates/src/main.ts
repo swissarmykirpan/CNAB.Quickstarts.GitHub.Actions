@@ -11,6 +11,8 @@ export async function run() {
     let addPathSpec = core.getInput("add_path_spec");
     let commitMessage = core.getInput("commit_message");
 
+    let wd = <string>process.env.GITHUB_REPOSITORY
+
     core.info("Input: branch = " + branch);
     core.info("Input: add_path_spec = " + addPathSpec);
     core.info("Input: commit_message = " + commitMessage);
@@ -32,7 +34,7 @@ export async function run() {
     files.forEach(async file => {
       core.info("Running git status for: " + file);
 
-      let status = await git.status({ dir: '/', filepath: file });
+      let status = await git.status({ dir: wd, filepath: file });
 
       core.info(`Git status for '${file}' is '${status}'`);
 
@@ -49,12 +51,12 @@ export async function run() {
 
       core.info("Branch is: " + branch);
 
-      await git.checkout({ dir: '/', ref: branch })
+      await git.checkout({ dir: wd, ref: branch })
 
-      await git.add({ dir: '/', filepath: addPathSpec })
+      await git.add({ dir: wd, filepath: addPathSpec })
 
       await git.commit({
-        dir: '/',
+        dir: wd,
         author: {
           name: githubActor,
           email: `${githubActor}@users.noreply.github.com`
@@ -63,7 +65,7 @@ export async function run() {
       });
 
       await git.push({
-        dir: '/',
+        dir: wd,
         remote: 'origin',
         ref: branch,
         token: githubToken

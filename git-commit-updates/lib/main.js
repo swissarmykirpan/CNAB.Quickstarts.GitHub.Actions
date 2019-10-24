@@ -27,6 +27,7 @@ function run() {
             let branch = core.getInput("branch");
             let addPathSpec = core.getInput("add_path_spec");
             let commitMessage = core.getInput("commit_message");
+            let wd = process.env.GITHUB_REPOSITORY;
             core.info("Input: branch = " + branch);
             core.info("Input: add_path_spec = " + addPathSpec);
             core.info("Input: commit_message = " + commitMessage);
@@ -40,7 +41,7 @@ function run() {
             let changes = false;
             files.forEach((file) => __awaiter(this, void 0, void 0, function* () {
                 core.info("Running git status for: " + file);
-                let status = yield git.status({ dir: '/', filepath: file });
+                let status = yield git.status({ dir: wd, filepath: file });
                 core.info(`Git status for '${file}' is '${status}'`);
                 changes =
                     status == "*deleted" ||
@@ -51,10 +52,10 @@ function run() {
                 core.info("Changes found. Committing changes...");
                 branch = branch.replace("refs/heads/", "");
                 core.info("Branch is: " + branch);
-                yield git.checkout({ dir: '/', ref: branch });
-                yield git.add({ dir: '/', filepath: addPathSpec });
+                yield git.checkout({ dir: wd, ref: branch });
+                yield git.add({ dir: wd, filepath: addPathSpec });
                 yield git.commit({
-                    dir: '/',
+                    dir: wd,
                     author: {
                         name: githubActor,
                         email: `${githubActor}@users.noreply.github.com`
@@ -62,7 +63,7 @@ function run() {
                     message: commitMessage
                 });
                 yield git.push({
-                    dir: '/',
+                    dir: wd,
                     remote: 'origin',
                     ref: branch,
                     token: githubToken
