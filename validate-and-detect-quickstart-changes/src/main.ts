@@ -14,7 +14,7 @@ export async function run() {
         prNumber = parseInt(prNumberStr);
     }
 
-    const githubToken = core.getInput('github_token');
+    let githubToken = <string>process.env.GITHUB_TOKEN;
 
     const octokit = new github.GitHub(githubToken);
 

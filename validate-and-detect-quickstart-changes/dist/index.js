@@ -1876,7 +1876,7 @@ function run() {
             if (prNumberStr) {
                 prNumber = parseInt(prNumberStr);
             }
-            const githubToken = core.getInput('github_token');
+            let githubToken = process.env.GITHUB_TOKEN;
             const octokit = new github.GitHub(githubToken);
             let files = yield functions_1.getFiles(octokit, trigger, repoName, sourceVersion, prNumber);
             let changesAreValid = functions_1.areChangesValid(files);
