@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
+import * as github from '@actions/github';
 import { getFiles, areChangesValid, isBuildRequired, getQuickstartSolutionPath, getQuickstartTool } from './functions';
-import * as os from 'os';
 
 export async function run() {
   try {
@@ -14,7 +14,11 @@ export async function run() {
         prNumber = parseInt(prNumberStr);
     }
 
-    let files = await getFiles(trigger, repoName, sourceVersion, prNumber);
+    const githubToken = core.getInput('github_token');
+
+    const octokit = new github.GitHub(githubToken);
+
+    let files = await getFiles(octokit, trigger, repoName, sourceVersion, prNumber);
 
     let changesAreValid = areChangesValid(files);
     core.setOutput("changes_are_valid", `${changesAreValid}`);

@@ -15,29 +15,33 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
-const jsonpath_1 = __importDefault(require("jsonpath"));
-const axios_1 = __importDefault(require("axios"));
-function getFiles(trigger, repoName, sourceVersion, prNumber) {
+function getFiles(octokit, trigger, ownerAndRepoName, sourceVersion, prNumber) {
     return __awaiter(this, void 0, void 0, function* () {
+        let repoSplits = splitWithRemainder(ownerAndRepoName, "/", 1);
+        let owner = repoSplits[0];
+        let repoName = repoSplits[1];
         let files;
         if (trigger == "push") {
-            let commitUri = `https://api.github.com/repos/${repoName}/commits/${sourceVersion}`;
-            core.info(`Merge Commit uri: ${commitUri}`);
-            let response = yield axios_1.default.get(commitUri);
-            let data = yield response.data;
-            files = jsonpath_1.default.query(data, '$..filename');
+            core.info(`Getting commit files for owner '${owner}', repo '${repoName}', source version '${sourceVersion}'`);
+            let response = yield octokit.repos.getCommit({
+                owner: owner,
+                repo: repoName,
+                commit_sha: sourceVersion
+            });
+            let data = response.data;
+            files = data.files.map(item => item.filename);
         }
         else if (trigger == "pull_request") {
-            let prUri = `https://api.github.com/repos/${repoName}/pulls/${prNumber}/files`;
-            core.info(`PR uri: ${prUri}`);
-            let response = yield axios_1.default.get(prUri);
-            let data = yield response.data;
-            files = jsonpath_1.default.query(data, '$..filename');
+            core.info(`Getting PR files for owner '${owner}', repo '${repoName}', PR number '${prNumber}'`);
+            let response = yield octokit.pulls.listFiles({
+                owner: owner,
+                repo: repoName,
+                pull_number: prNumber
+            });
+            let data = response.data;
+            files = data.map(item => item.filename);
         }
         else {
             throw new Error(`Unsupported trigger type: ${trigger}`);
@@ -116,4 +120,16 @@ function removeFilesWithPathThatBeginsWithDot(changes) {
     return changes.filter(function (path) {
         return path[0] != '.';
     });
+}
+function splitWithRemainder(input, separator, limit) {
+    let splits = input.split(separator);
+    let result;
+    if (splits.length > limit) {
+        result = splits.splice(0, limit);
+        result.push(splits.join(separator));
+    }
+    else {
+        result = splits;
+    }
+    return result;
 }

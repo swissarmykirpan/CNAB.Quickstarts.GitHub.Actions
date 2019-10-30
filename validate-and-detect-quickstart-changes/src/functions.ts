@@ -1,30 +1,35 @@
 import * as core from '@actions/core';
-import jp from "jsonpath";
-import axios from 'axios';
+import Octokit = require('@octokit/rest');
 
-export async function getFiles(trigger: string, repoName: string, sourceVersion?: string, prNumber?: number): Promise<string[]> {
+export async function getFiles(octokit: Octokit, trigger: string, ownerAndRepoName: string, sourceVersion?: string, prNumber?: number): Promise<string[]> {
+
+    let repoSplits = splitWithRemainder(ownerAndRepoName, "/", 1);
+    let owner = repoSplits[0];
+    let repoName = repoSplits[1];
 
     let files: string[];
 
     if (trigger == "push") {
-        let commitUri = `https://api.github.com/repos/${repoName}/commits/${sourceVersion}`;
+        core.info(`Getting commit files for owner '${owner}', repo '${repoName}', source version '${sourceVersion}'`)
+        let response = await octokit.repos.getCommit({
+            owner: owner,
+            repo: repoName,
+            commit_sha: <string>sourceVersion
+        });
 
-        core.info(`Merge Commit uri: ${commitUri}`);
-
-        let response = await axios.get(commitUri);
-        let data = await response.data;
-
-        files = jp.query(data, '$..filename');
+        let data = response.data;
+        files = data.files.map(item => item.filename);
     }
     else if (trigger == "pull_request") {
-        let prUri = `https://api.github.com/repos/${repoName}/pulls/${prNumber}/files`;
+        core.info(`Getting PR files for owner '${owner}', repo '${repoName}', PR number '${prNumber}'`)
+        let response = await octokit.pulls.listFiles({
+            owner: owner,
+            repo: repoName,
+            pull_number: <number>prNumber
+        });
 
-        core.info(`PR uri: ${prUri}`);
-
-        let response = await axios.get(prUri);
-        let data = await response.data;
-
-        files = jp.query(data, '$..filename');
+        let data = response.data;
+        files = data.map(item => item.filename);
     }
     else {
         throw new Error(`Unsupported trigger type: ${trigger}`);
@@ -111,4 +116,18 @@ function removeFilesWithPathThatBeginsWithDot(changes: string[]): string[] {
     return changes.filter(function (path) {
         return path[0] != '.';
     });
+}
+
+function splitWithRemainder(input: string, separator: string, limit: number) {
+    let splits = input.split(separator);
+
+    let result: string[];
+    if (splits.length > limit) {
+        result = splits.splice(0, limit);
+        result.push(splits.join(separator));
+    } else {
+        result = splits;
+    }
+
+    return result;
 }

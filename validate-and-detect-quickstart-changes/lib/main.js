@@ -17,6 +17,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
+const github = __importStar(require("@actions/github"));
 const functions_1 = require("./functions");
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -29,7 +30,9 @@ function run() {
             if (prNumberStr) {
                 prNumber = parseInt(prNumberStr);
             }
-            let files = yield functions_1.getFiles(trigger, repoName, sourceVersion, prNumber);
+            const githubToken = core.getInput('github_token');
+            const octokit = new github.GitHub(githubToken);
+            let files = yield functions_1.getFiles(octokit, trigger, repoName, sourceVersion, prNumber);
             let changesAreValid = functions_1.areChangesValid(files);
             core.setOutput("changes_are_valid", `${changesAreValid}`);
             if (changesAreValid) {
