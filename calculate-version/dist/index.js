@@ -1216,6 +1216,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let manifestPath = core.getInput("manifest_path");
+            let branch = core.getInput("branch");
             let workspacePath = process.env.GITHUB_WORKSPACE;
             let bundleDir = path.dirname(manifestPath);
             let wd = path.join(workspacePath, bundleDir);
@@ -1226,7 +1227,7 @@ function run() {
             let gitversionConfigPath = path.join(wd, 'GitVersion.yml');
             let contents = `next-version: ${manifestVersion}`;
             core.info(`Writing temporary Gitversion config file with contents '${contents}' to path '${gitversionConfigPath}'`);
-            fs_1.promises.writeFile(gitversionConfigPath, contents);
+            yield fs_1.promises.writeFile(gitversionConfigPath, contents);
             core.info(`Running GitVersion in working directory '${wd}'`);
             let gvOutput = '';
             const options = {};
@@ -1238,8 +1239,15 @@ function run() {
             options.cwd = wd;
             yield exec.exec('docker', ['run', '--rm', '-v', `${workspacePath}:/repo`, 'gittools/gitversion:latest-linux-netcoreapp2.1', `/repo/${bundleDir}`], options);
             let gv = JSON.parse(gvOutput);
-            let fullSemver = gv.FullSemVer;
-            let version = fullSemver.replace('.', '-').replace('+', '-');
+            let version;
+            if (branch == "master") {
+                let semVer = gv.SemVer;
+                version = semVer;
+            }
+            else {
+                let fullSemver = gv.FullSemVer;
+                version = fullSemver.replace('+', '-');
+            }
             core.setOutput("version", version);
         }
         catch (error) {

@@ -4,6 +4,9 @@ inputs:
   manifest_path:
     description: 'Path to the Porter manifest file'
     required: true
+  branch:
+    description: 'Current branch'
+    required: true
 outputs:
   version: 
     description: 'The full semantic version number, made safe for docker tag'

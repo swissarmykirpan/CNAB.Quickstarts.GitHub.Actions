@@ -7,6 +7,7 @@ import { promises as fs } from 'fs';
 export async function run() {
   try {
     let manifestPath = core.getInput("manifest_path");
+    let branch = core.getInput("branch");
 
     let workspacePath = <string>process.env.GITHUB_WORKSPACE;
 
@@ -41,9 +42,15 @@ export async function run() {
 
     let gv = JSON.parse(gvOutput);
 
-    let fullSemver = <string>gv.FullSemVer;
+    let version : string;
 
-    let version = fullSemver.replace('.', '-').replace('+', '-');
+    if (branch == "master") {
+      let semVer = <string>gv.SemVer;
+      version = semVer;
+    } else {
+      let fullSemver = <string>gv.FullSemVer;
+      version = fullSemver.replace('+', '-');
+    }
 
     core.setOutput("version", version);
 
