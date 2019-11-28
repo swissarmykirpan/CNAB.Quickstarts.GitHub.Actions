@@ -28,7 +28,7 @@ export class Generator {
         return json2md([
             { h2: "Deploy from Azure" },
             { p: "You will need to create a service principal in order to use the 'Deploy from Azure' buttons." },
-            { p: "For detailed instructions on deploying from Azure, including how to setup the service principal, see [Consuming: Deploy from Azure](../../consuming.md#deploy-from-azure)" },
+            { p: "For detailed instructions on deploying from Azure, including how to setup the service principal, see [Consuming: Deploy from Azure](../../docs/consuming.md#deploy-from-azure)" },
             { h3: "Simple deployment" },
             { p: this.generateDeployFromAzureButton(this.simpleTemplateUri)},
             { h3: "Advanced deployment" },
@@ -48,7 +48,7 @@ export class Generator {
     private generateDeployFromCloudShellSection(): string {
         return json2md([
             { h2: "Deploy from Cloud Shell" },
-            { p: "For detailed instructions on deploying from Cloud Shell, including how to setup the Cloud Shell environment, see [Consuming: Deploy from Cloud Shell](../../consuming.md#deploy-from-cloud-shell)" },
+            { p: "For detailed instructions on deploying from Cloud Shell, including how to setup the Cloud Shell environment, see [Consuming: Deploy from Cloud Shell](../../docs/consuming.md#deploy-from-cloud-shell)" },
             { 
                 p: `\`\`\`porter install --tag ${this.bundleMetadata.invocationImages[0].image} -d azure\`\`\`` 
             }
