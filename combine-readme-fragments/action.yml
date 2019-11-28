@@ -1,0 +1,21 @@
+name: Combine readme fragments'
+description: 'Combines the instructions, deployment, and issues fragments into a readme file'
+inputs:
+  manifest_path:
+    description: 'Path to the Porter manifest file'
+    required: true
+  instructions_path:
+    description: 'Path to the instructions fragment'
+    required: true
+  deployment_path:
+    description: 'Path to the deployment fragment'
+    required: true
+  issues_path:
+    description: 'Path to the issues fragment'
+    required: true
+  output_path:
+    description: 'Path to write out the readme file'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
