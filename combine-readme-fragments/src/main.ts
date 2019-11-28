@@ -29,6 +29,7 @@ export async function run() {
       let issues = await fsAsync.readFile(issuesPath, "utf8");
 
       if (issues) {
+        readme += insertNewLine(2);
         readme += json2md({ h2: "Known issues" });
         readme += issues;
       }

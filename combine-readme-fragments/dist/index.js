@@ -694,6 +694,7 @@ function run() {
             if (fs.existsSync(issuesPath)) {
                 let issues = yield fs_1.promises.readFile(issuesPath, "utf8");
                 if (issues) {
+                    readme += insertNewLine(2);
                     readme += json2md_1.default({ h2: "Known issues" });
                     readme += issues;
                 }
