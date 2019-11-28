@@ -1,0 +1,80 @@
+{
+    "credentials": {
+        "kubeconfig": {
+            "path": "/root/.kube/config",
+            "required": true
+        }
+    },
+    "custom": {
+        "io.cnab.dependencies": null,
+        "sh.porter": {
+            "manifestDigest": "949e596d073d847eb9bd049333a0e87d5330ed98c837fff48ec17b85305d5710"
+        }
+    },
+    "definitions": {
+        "airflow_name": {
+            "default": "airflow01",
+            "type": "string"
+        },
+        "host": {
+            "type": "string"
+        },
+        "ingress_class": {
+            "default": "addon-http-application-routing",
+            "type": "string"
+        },
+        "namespace": {
+            "default": "",
+            "type": "string"
+        },
+        "porter-debug": {
+            "default": false,
+            "description": "Print debug information from Porter when executing the bundle",
+            "type": "boolean"
+        }
+    },
+    "description": "Apache Airflow on Kubernetes",
+    "invocationImages": [
+        {
+            "image": "cnabquickstarts.azurecr.io/porter/airflow:0.1.0",
+            "imageType": "docker"
+        }
+    ],
+    "name": "airflow",
+    "parameters": {
+        "airflow_name": {
+            "definition": "airflow_name",
+            "destination": {
+                "env": "AIRFLOW_NAME"
+            }
+        },
+        "host": {
+            "definition": "host",
+            "destination": {
+                "env": "HOST"
+            },
+            "required": true
+        },
+        "ingress_class": {
+            "definition": "ingress_class",
+            "destination": {
+                "env": "INGRESS_CLASS"
+            }
+        },
+        "namespace": {
+            "definition": "namespace",
+            "destination": {
+                "env": "NAMESPACE"
+            }
+        },
+        "porter-debug": {
+            "definition": "porter-debug",
+            "description": "Print debug information from Porter when executing the bundle",
+            "destination": {
+                "env": "PORTER_DEBUG"
+            }
+        }
+    },
+    "schemaVersion": "v1.0.0",
+    "version": "0.1.0"
+}

@@ -1,0 +1,44 @@
+{
+  "name": "generate-deployment-readme-fragment",
+  "version": "1.0.0",
+  "description": "Generates deployment fragment for readme, with deploy from Azure and Cloud Shell instructions and bundle parameters",
+  "main": "lib/main.js",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "package": "tsc && ncc build lib/main.js"
+  },
+  "author": "endjin",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.0.0",
+    "@actions/io": "^1.0.1",
+    "@types/json2md": "^1.5.0",
+    "cnabjs": "0.0.5",
+    "json2md": "^1.6.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.0.4",
+    "@types/uuid": "^3.4.5",
+    "@zeit/ncc": "^0.20.5",
+    "husky": "^3.0.7",
+    "jest": "^24.8.0",
+    "jest-circus": "^24.7.1",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.1",
+    "uuid": "^3.3.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run package && git add lib/* && git add dist/*"
+    }
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "engines": {
+    "node": ">=0.12"
+  }
+}

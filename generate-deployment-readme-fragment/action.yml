@@ -1,0 +1,18 @@
+name: 'Generate deployment readme fragment'
+description: 'Generates deployment fragment for readme, with deploy from Azure and Cloud Shell instructions and bundle parameters'
+inputs:
+  bundle_metadata_path:
+    description: 'Path to the bundle metadata file'
+    required: true
+  simple_template_uri:
+    description: 'Path to the simple ARM template file'
+    required: true
+  advanced_template_uri:
+    description: 'Path to the advanced ARM template file'
+    required: true
+  output_path:
+    description: 'Path for output readme markdown file'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

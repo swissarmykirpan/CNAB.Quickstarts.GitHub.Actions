@@ -1,0 +1,102 @@
+{
+    "credentials": {
+        "azure_client_id": {
+            "description": "AAD Client ID for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig - also if using ACI Driver  its used to authenticate to Azure for ACI creation to run bundle",
+            "env": "AZURE_CLIENT_ID",
+            "required": true
+        },
+        "azure_client_secret": {
+            "description": "AAD Client Secret for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig - also if using ACI Driver  its used to authenticate to Azure for ACI creation to run bundle",
+            "env": "AZURE_CLIENT_SECRET",
+            "required": true
+        },
+        "azure_subscription_id": {
+            "description": "Azure Subscription Id used to set the subscription where the account has access to multiple subscriptions",
+            "env": "AZURE_SUBSCRIPTION_ID",
+            "required": true
+        },
+        "azure_tenant_id": {
+            "description": "Azure AAD Tenant Id for Azure account authentication - used to authenticate to Azure to get KubeConfig",
+            "env": "AZURE_TENANT_ID",
+            "required": true
+        },
+        "sql_masterkeypassword": {
+            "description": "The Password for the SQL Server Master Key",
+            "env": "SQL_MASTERKEYPASSWORD",
+            "required": true
+        },
+        "sql_sapassword": {
+            "description": "The Password for the sa user in SQL Server",
+            "env": "SQL_SAPASSWORD",
+            "required": true
+        }
+    },
+    "custom": {
+        "io.cnab.dependencies": null,
+        "sh.porter": {
+            "manifestDigest": "d8f42689b6b31d5b73d9a333aa8a2a501e10b120b7bd913510f3badd5cb022cc"
+        }
+    },
+    "definitions": {
+        "aks_cluster_name": {
+            "default": "sql-server-aks",
+            "description": "The name to use for the AKS Cluster",
+            "type": "string"
+        },
+        "aks_resource_group1": {
+            "default": "sql-server-always-on",
+            "description": "The name of the resource group to create the AKS Cluster in",
+            "type": "string"
+        },
+        "location": {
+            "description": "The Location to create the resources in",
+            "type": "string"
+        },
+        "porter-debug": {
+            "default": false,
+            "description": "Print debug information from Porter when executing the bundle",
+            "type": "boolean"
+        }
+    },
+    "description": "SQL Server Always On for AKS",
+    "invocationImages": [
+        {
+            "image": "cnabquickstarts.azurecr.io/porter/sql-server-always-on:0.1.2",
+            "imageType": "docker"
+        }
+    ],
+    "name": "sql-server-always-on",
+    "parameters": {
+        "aks_cluster_name": {
+            "definition": "aks_cluster_name",
+            "description": "The name to use for the AKS Cluster",
+            "destination": {
+                "env": "AKS_CLUSTER_NAME"
+            }
+        },
+        "aks_resource_group": {
+            "definition": "aks_resource_group",
+            "description": "The name of the resource group to create the AKS Cluster in",
+            "destination": {
+                "env": "AKS_RESOURCE_GROUP1"
+            }
+        },
+        "location": {
+            "definition": "location",
+            "description": "The Location to create the resources in",
+            "destination": {
+                "env": "LOCATION"
+            },
+            "required": true
+        },
+        "porter-debug": {
+            "definition": "porter-debug",
+            "description": "Print debug information from Porter when executing the bundle",
+            "destination": {
+                "env": "PORTER_DEBUG"
+            }
+        }
+    },
+    "schemaVersion": "v1.0.0-WD",
+    "version": "0.1.2"
+}
