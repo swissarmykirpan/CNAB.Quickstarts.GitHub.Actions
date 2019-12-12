@@ -17,18 +17,20 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
-const path = __importStar(require("path"));
 const fs_1 = require("fs");
 const yaml = __importStar(require("js-yaml"));
+const exec = __importStar(require("@actions/exec"));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let manifestPath = core.getInput("manifest_path");
-            let workspacePath = process.env.GITHUB_WORKSPACE;
-            let fullPath = path.join(workspacePath, manifestPath);
             let manifestContents = yield fs_1.promises.readFile(manifestPath, 'utf8');
             let manifest = yaml.safeLoad(manifestContents);
             let mixins = manifest.mixins.join(',');
+            for (let i = 0; i < mixins.length; i++) {
+                const mixin = mixins[i];
+                yield exec.exec('porter', ['mixin', 'install', mixin]);
+            }
             core.setOutput("mixins", mixins);
         }
         catch (error) {

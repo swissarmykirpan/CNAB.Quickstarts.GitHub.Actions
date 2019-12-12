@@ -6,7 +6,6 @@ import * as path from 'path';
 
 export async function run() {
   try {
-    const execa = require('execa');
 
     let porterUrl = core.getInput("porter_url");
     let porterVersion = core.getInput("porter_version");
