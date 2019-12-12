@@ -980,12 +980,12 @@ function run() {
             let manifestPath = core.getInput("manifest_path");
             let manifestContents = yield fs_1.promises.readFile(manifestPath, 'utf8');
             let manifest = yaml.safeLoad(manifestContents);
-            let mixins = manifest.mixins.join(',');
+            let mixins = manifest.mixins;
             for (let i = 0; i < mixins.length; i++) {
                 const mixin = mixins[i];
                 yield exec.exec('porter', ['mixin', 'install', mixin]);
             }
-            core.setOutput("mixins", mixins);
+            core.setOutput("mixins", mixins.join(','));
         }
         catch (error) {
             throw error;

@@ -10,14 +10,14 @@ export async function run() {
     let manifestContents = await fs.readFile(manifestPath, 'utf8');
 
     let manifest = yaml.safeLoad(manifestContents);
-    let mixins = manifest.mixins.join(',');
+    let mixins = manifest.mixins;
 
     for (let i = 0; i < mixins.length; i++) {
       const mixin = mixins[i];
       await exec.exec('porter', ['mixin', 'install', mixin]);
     }
 
-    core.setOutput("mixins", mixins);
+    core.setOutput("mixins", mixins.join(','));
    
   } catch (error) {
     throw error;
