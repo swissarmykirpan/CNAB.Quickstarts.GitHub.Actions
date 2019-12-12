@@ -5,7 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const json2md_1 = __importDefault(require("json2md"));
 class Generator {
-    constructor(bundleMetadata, simpleTemplateUri, advancedTemplateUri) {
+    constructor(bundleTag, bundleMetadata, simpleTemplateUri, advancedTemplateUri) {
+        this.bundleTag = bundleTag;
         this.bundleMetadata = bundleMetadata;
         this.simpleTemplateUri = simpleTemplateUri;
         this.advancedTemplateUri = advancedTemplateUri;
@@ -41,7 +42,7 @@ class Generator {
             { h2: "Deploy from Cloud Shell" },
             { p: "For detailed instructions on deploying from Cloud Shell, including how to setup the Cloud Shell environment, see [Consuming: Deploy from Cloud Shell](../../docs/consuming.md#deploy-from-cloud-shell)" },
             {
-                p: `\`\`\`porter install --tag ${this.bundleMetadata.invocationImages[0].image} -d azure\`\`\``
+                p: `\`\`\`porter install --tag ${this.bundleTag} -d azure\`\`\``
             }
         ]);
     }

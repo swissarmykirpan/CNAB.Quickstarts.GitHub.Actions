@@ -14,8 +14,10 @@
   "dependencies": {
     "@actions/core": "^1.0.0",
     "@actions/io": "^1.0.1",
+    "@types/js-yaml": "^3.12.1",
     "@types/json2md": "^1.5.0",
     "cnabjs": "0.0.5",
+    "js-yaml": "^3.13.1",
     "json2md": "^1.6.5"
   },
   "devDependencies": {

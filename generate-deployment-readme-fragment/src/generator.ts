@@ -2,11 +2,13 @@ import { Bundle } from 'cnabjs';
 import { default as json2md } from 'json2md';
 
 export class Generator {
+    private readonly bundleTag: string;
     private readonly bundleMetadata: Bundle;
     private readonly simpleTemplateUri: string;
     private readonly advancedTemplateUri: string;
 
-    constructor(bundleMetadata: Bundle, simpleTemplateUri: string, advancedTemplateUri: string) {
+    constructor(bundleTag: string, bundleMetadata: Bundle, simpleTemplateUri: string, advancedTemplateUri: string) {
+        this.bundleTag = bundleTag;
         this.bundleMetadata = bundleMetadata;
         this.simpleTemplateUri = simpleTemplateUri;
         this.advancedTemplateUri = advancedTemplateUri;
@@ -50,7 +52,7 @@ export class Generator {
             { h2: "Deploy from Cloud Shell" },
             { p: "For detailed instructions on deploying from Cloud Shell, including how to setup the Cloud Shell environment, see [Consuming: Deploy from Cloud Shell](../../docs/consuming.md#deploy-from-cloud-shell)" },
             { 
-                p: `\`\`\`porter install --tag ${this.bundleMetadata.invocationImages[0].image} -d azure\`\`\`` 
+                p: `\`\`\`porter install --tag ${this.bundleTag} -d azure\`\`\`` 
             }
         ]);
     }

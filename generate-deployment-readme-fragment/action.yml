@@ -1,6 +1,9 @@
 name: 'Generate deployment readme fragment'
 description: 'Generates deployment fragment for readme, with deploy from Azure and Cloud Shell instructions and bundle parameters'
 inputs:
+  manifest_path:
+    description: 'Path to the Porter manifest file'
+    required: true
   bundle_metadata_path:
     description: 'Path to the bundle metadata file'
     required: true
