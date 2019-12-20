@@ -8,7 +8,7 @@ export async function run() {
 
     let porterBundlesPath = core.getInput("porter_bundles_path");    
     let outputPath = core.getInput("output_path");    
-    let toc = await generateTocAsync(porterBundlesPath);
+    let toc = await generateTocAsync(porterBundlesPath, outputPath);
     await fs.writeFile(outputPath, toc);
 
   } catch (error) {

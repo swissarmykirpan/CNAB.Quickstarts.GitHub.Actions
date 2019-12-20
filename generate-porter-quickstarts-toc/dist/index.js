@@ -673,7 +673,7 @@ const fs_1 = __webpack_require__(747);
 const path = __importStar(__webpack_require__(622));
 const yaml = __importStar(__webpack_require__(414));
 const json2md_1 = __importDefault(__webpack_require__(640));
-function generateTocAsync(porterBundlesPath) {
+function generateTocAsync(porterBundlesPath, outputPath) {
     return __awaiter(this, void 0, void 0, function* () {
         const porterBundleDirs = yield getDirectoriesAsync(porterBundlesPath);
         let rows = [];
@@ -685,8 +685,9 @@ function generateTocAsync(porterBundlesPath) {
             let name = manifest.name;
             let description = manifest.description;
             let version = manifest.version;
+            let url = path.join(path.relative(path.dirname(outputPath), porterBundlesPath), dir);
             let row = {
-                Name: `[${name}](porter/${dir})`,
+                Name: `[${name}](${url})`,
                 Version: version,
                 Description: description,
             };
@@ -744,7 +745,7 @@ function run() {
         try {
             let porterBundlesPath = core.getInput("porter_bundles_path");
             let outputPath = core.getInput("output_path");
-            let toc = yield functions_1.generateTocAsync(porterBundlesPath);
+            let toc = yield functions_1.generateTocAsync(porterBundlesPath, outputPath);
             yield fs_1.promises.writeFile(outputPath, toc);
         }
         catch (error) {

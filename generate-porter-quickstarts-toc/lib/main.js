@@ -24,7 +24,7 @@ function run() {
         try {
             let porterBundlesPath = core.getInput("porter_bundles_path");
             let outputPath = core.getInput("output_path");
-            let toc = yield functions_1.generateTocAsync(porterBundlesPath);
+            let toc = yield functions_1.generateTocAsync(porterBundlesPath, outputPath);
             yield fs_1.promises.writeFile(outputPath, toc);
         }
         catch (error) {

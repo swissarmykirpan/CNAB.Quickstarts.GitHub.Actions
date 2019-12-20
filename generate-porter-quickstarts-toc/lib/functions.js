@@ -23,7 +23,7 @@ const fs_1 = require("fs");
 const path = __importStar(require("path"));
 const yaml = __importStar(require("js-yaml"));
 const json2md_1 = __importDefault(require("json2md"));
-function generateTocAsync(porterBundlesPath) {
+function generateTocAsync(porterBundlesPath, outputPath) {
     return __awaiter(this, void 0, void 0, function* () {
         const porterBundleDirs = yield getDirectoriesAsync(porterBundlesPath);
         let rows = [];
@@ -35,8 +35,9 @@ function generateTocAsync(porterBundlesPath) {
             let name = manifest.name;
             let description = manifest.description;
             let version = manifest.version;
+            let url = path.join(path.relative(path.dirname(outputPath), porterBundlesPath), dir);
             let row = {
-                Name: `[${name}](porter/${dir})`,
+                Name: `[${name}](${url})`,
                 Version: version,
                 Description: description,
             };

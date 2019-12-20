@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as yaml from 'js-yaml';
 import { default as json2md } from 'json2md';
 
-export async function generateTocAsync(porterBundlesPath: string): Promise<string> {
+export async function generateTocAsync(porterBundlesPath: string, outputPath: string): Promise<string> {
     const porterBundleDirs = await getDirectoriesAsync(porterBundlesPath);
 
     let rows : any[] = [];
@@ -17,9 +17,10 @@ export async function generateTocAsync(porterBundlesPath: string): Promise<strin
         let name = manifest.name;
         let description = manifest.description;
         let version = manifest.version;
+        let url = path.join(path.relative(path.dirname(outputPath), porterBundlesPath), dir);
 
         let row = {
-            Name: `[${name}](porter/${dir})`,
+            Name: `[${name}](${url})`,
             Version: version,
             Description: description,
         };
