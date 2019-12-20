@@ -1,0 +1,5 @@
+name: Bundle1
+version: 1.0.0
+description: This is bundle 1
+invocationImage: bundle1
+mixins: []

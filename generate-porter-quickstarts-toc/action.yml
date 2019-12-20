@@ -1,0 +1,12 @@
+name: 'Generate Porter Quickstarts Table of Contents'
+description: 'Generates a table of contents given a directory containing quickstarts using Porter-based bundles'
+inputs:
+  porter_bundles_path:
+    description: 'Path to the directory containing the Porter-based bundles'
+    required: true
+  output_path:
+    description: 'Path to write the output markdown file'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
