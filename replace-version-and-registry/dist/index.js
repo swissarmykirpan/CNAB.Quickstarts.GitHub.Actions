@@ -664,11 +664,21 @@ function updateManifest(manifestContents, version, tag, registry) {
     manifest.version = version;
     let invocationImage = manifest.invocationImage;
     let invocationImageParsed = docker_reference_parser_1.parse(invocationImage);
-    invocationImage = `${registry}/${invocationImageParsed.path}:${tag}`;
+    if (!registry) {
+        invocationImage = `${invocationImageParsed.path}:${tag}`;
+    }
+    else {
+        invocationImage = `${registry}/${invocationImageParsed.path}:${tag}`;
+    }
     manifest.invocationImage = invocationImage;
     let bundle = manifest.tag;
     let bundleParsed = docker_reference_parser_1.parse(bundle);
-    bundle = `${registry}/${bundleParsed.path}:${tag}`;
+    if (!registry) {
+        bundle = `${bundleParsed.path}:${tag}`;
+    }
+    else {
+        bundle = `${registry}/${bundleParsed.path}:${tag}`;
+    }
     manifest.tag = bundle;
     manifestContents = yaml.safeDump(manifest);
     return manifestContents;
